@@ -6,21 +6,21 @@ import type { SequenceStatus, Json } from "@/lib/types/database";
 
 const statusConfig: Record<SequenceStatus, { label: string; classes: string }> = {
   draft: {
-    label: "Draft",
+    label: "Borrador",
     classes: "bg-muted text-muted-foreground",
   },
   active: {
-    label: "Active",
+    label: "Activa",
     classes: "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400",
   },
   paused: {
-    label: "Paused",
+    label: "Pausada",
     classes: "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400",
   },
 };
 
 function formatDate(dateString: string) {
-  return new Date(dateString).toLocaleDateString("en-US", {
+  return new Date(dateString).toLocaleDateString("es", {
     month: "short",
     day: "numeric",
     year: "numeric",
@@ -62,9 +62,9 @@ export default async function SequencesPage() {
       <div className="border-b border-border px-8 py-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold">Sequences</h1>
+            <h1 className="text-2xl font-bold">Secuencias</h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              Create drip campaigns to nurture contacts over time
+              Crea campañas de goteo para nutrir a tus contactos con el tiempo
             </p>
           </div>
           <CreateSequenceButton />
@@ -75,9 +75,9 @@ export default async function SequencesPage() {
       {!sequences || sequences.length === 0 ? (
         <div className="mt-12 rounded-xl border border-dashed border-border p-12 text-center">
           <ListOrdered className="mx-auto h-10 w-10 text-muted-foreground" />
-          <h2 className="mt-4 text-lg font-semibold">No sequences yet</h2>
+          <h2 className="mt-4 text-lg font-semibold">Aún no hay secuencias</h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            Create your first sequence to start nurturing contacts automatically.
+            Crea tu primera secuencia para empezar a nutrir contactos automáticamente.
           </p>
           <div className="mt-4">
             <CreateSequenceButton />

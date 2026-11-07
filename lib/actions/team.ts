@@ -11,7 +11,7 @@ export async function inviteTeamMember(
   const { workspace, user, supabase } = await getWorkspace();
 
   if (workspace.id !== workspaceId) {
-    return { error: "Workspace mismatch" };
+    return { error: "El espacio de trabajo no coincide" };
   }
 
   // Validate caller is owner
@@ -23,17 +23,17 @@ export async function inviteTeamMember(
     .single();
 
   if (membership?.role !== "owner") {
-    return { error: "Only workspace owners can invite members" };
+    return { error: "Solo los propietarios del espacio de trabajo pueden invitar miembros" };
   }
 
   const trimmedEmail = email.trim().toLowerCase();
   if (!trimmedEmail || !trimmedEmail.includes("@")) {
-    return { error: "A valid email address is required" };
+    return { error: "Se requiere un correo electrónico válido" };
   }
 
   const validRoles = ["member", "admin"];
   if (!validRoles.includes(role)) {
-    return { error: "Invalid role. Must be member or admin." };
+    return { error: "Rol inválido. Debe ser miembro o administrador." };
   }
 
   // Check if this email is already a member
@@ -54,7 +54,7 @@ export async function inviteTeamMember(
       .single();
 
     if (existingInvite) {
-      return { error: "An invite for this email is already pending" };
+      return { error: "Ya hay una invitación pendiente para este correo" };
     }
   }
 
@@ -84,7 +84,7 @@ export async function removeTeamMember(
   const { workspace, user, supabase } = await getWorkspace();
 
   if (workspace.id !== workspaceId) {
-    return { error: "Workspace mismatch" };
+    return { error: "El espacio de trabajo no coincide" };
   }
 
   // Validate caller is owner
@@ -96,12 +96,12 @@ export async function removeTeamMember(
     .single();
 
   if (membership?.role !== "owner") {
-    return { error: "Only workspace owners can remove members" };
+    return { error: "Solo los propietarios del espacio de trabajo pueden quitar miembros" };
   }
 
   // Can't remove yourself
   if (userId === user.id) {
-    return { error: "You cannot remove yourself from the workspace" };
+    return { error: "No puedes quitarte a ti mismo del espacio de trabajo" };
   }
 
   const { error: deleteError } = await supabase
@@ -123,7 +123,7 @@ export async function acceptInvite(inviteId: string) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) return { error: "Not authenticated" };
+  if (!user) return { error: "No has iniciado sesión" };
 
   // Use service client to bypass RLS (the user is not a workspace member yet)
   const serviceClient = await createServiceClient();
@@ -136,20 +136,20 @@ export async function acceptInvite(inviteId: string) {
     .single();
 
   if (fetchError || !invite) {
-    return { error: "Invite not found" };
+    return { error: "Invitación no encontrada" };
   }
 
   if (invite.status !== "pending") {
-    return { error: "This invite is no longer valid" };
+    return { error: "Esta invitación ya no es válida" };
   }
 
   if (new Date(invite.expires_at) < new Date()) {
-    return { error: "This invite has expired" };
+    return { error: "Esta invitación ha expirado" };
   }
 
   // Verify the invite email matches the current user's email
   if (invite.email !== user.email) {
-    return { error: "This invite was sent to a different email address" };
+    return { error: "Esta invitación se envió a otro correo electrónico" };
   }
 
   // Check if user is already a member
@@ -203,7 +203,7 @@ export async function revokeInvite(inviteId: string) {
     .single();
 
   if (fetchError || !invite) {
-    return { error: "Invite not found" };
+    return { error: "Invitación no encontrada" };
   }
 
   // Validate caller is owner
@@ -215,7 +215,7 @@ export async function revokeInvite(inviteId: string) {
     .single();
 
   if (membership?.role !== "owner") {
-    return { error: "Only workspace owners can revoke invites" };
+    return { error: "Solo los propietarios del espacio de trabajo pueden revocar invitaciones" };
   }
 
   const { error: deleteError } = await supabase

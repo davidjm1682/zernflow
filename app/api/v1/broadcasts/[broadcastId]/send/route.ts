@@ -61,12 +61,12 @@ export async function POST(
     .single();
 
   if (broadcastErr || !broadcast) {
-    return NextResponse.json({ error: "Broadcast not found" }, { status: 404 });
+    return NextResponse.json({ error: "Difusión no encontrada" }, { status: 404 });
   }
 
   if (broadcast.status !== "draft" && broadcast.status !== "scheduled") {
     return NextResponse.json(
-      { error: `Cannot send broadcast with status "${broadcast.status}"` },
+      { error: `No se puede enviar una difusión con estado "${broadcast.status}"` },
       { status: 400 }
     );
   }
@@ -89,7 +89,7 @@ export async function POST(
 
   if (!messageContent?.text?.trim()) {
     return NextResponse.json(
-      { error: "Message content is required. Set message_content.text on the broadcast." },
+      { error: "El contenido del mensaje es obligatorio. Define message_content.text en la difusión." },
       { status: 400 }
     );
   }
@@ -104,7 +104,7 @@ export async function POST(
 
   if (contactIds.length === 0) {
     return NextResponse.json(
-      { error: "No contacts match the segment filter" },
+      { error: "Ningún contacto coincide con el filtro del segmento" },
       { status: 400 }
     );
   }
@@ -117,7 +117,7 @@ export async function POST(
 
   if (!contactChannels?.length) {
     return NextResponse.json(
-      { error: "No contacts have active channel connections" },
+      { error: "Ningún contacto tiene conexiones de canal activas" },
       { status: 400 }
     );
   }
@@ -155,7 +155,7 @@ export async function POST(
     if (insertErr) {
       console.error("Failed to insert broadcast recipients:", insertErr);
       return NextResponse.json(
-        { error: `Failed to create recipients: ${insertErr.message}` },
+        { error: `No se pudieron crear los destinatarios: ${insertErr.message}` },
         { status: 500 }
       );
     }
@@ -167,7 +167,7 @@ export async function POST(
 
   if (recipientIds.length === 0) {
     return NextResponse.json(
-      { error: "Failed to create broadcast recipients" },
+      { error: "No se pudieron crear los destinatarios de la difusión" },
       { status: 500 }
     );
   }

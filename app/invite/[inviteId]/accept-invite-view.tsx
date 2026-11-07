@@ -66,9 +66,9 @@ export function AcceptInviteView({
             height={48}
             className="mx-auto mb-3"
           />
-          <h1 className="text-2xl font-bold">You&apos;re invited!</h1>
+          <h1 className="text-2xl font-bold">¡Te han invitado!</h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            {inviterName} invited you to join
+            {inviterName} te invitó a unirte a
           </p>
         </div>
 
@@ -98,10 +98,10 @@ export function AcceptInviteView({
               {accepting ? (
                 <>
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  Accepting...
+                  Aceptando...
                 </>
               ) : (
-                "Accept Invite"
+                "Aceptar invitación"
               )}
             </button>
 
@@ -120,13 +120,13 @@ export function AcceptInviteView({
               <span className="font-medium">{email}</span>.
             </p>
             <p className="mt-1 text-xs text-amber-600">
-              Please log in with the invited email address to accept.
+              Inicia sesión con el correo invitado para aceptar.
             </p>
             <Link
               href={`/login`}
               className="mt-3 inline-flex rounded-lg border border-amber-300 bg-white px-4 py-2 text-sm font-medium text-amber-800 hover:bg-amber-50"
             >
-              Switch Account
+              Cambiar de cuenta
             </Link>
           </div>
         )}
@@ -137,7 +137,7 @@ export function AcceptInviteView({
               href={`/login?next=/invite/${inviteId}`}
               className="flex w-full items-center justify-center rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground hover:opacity-90"
             >
-              Sign in to Accept
+              Inicia sesión para aceptar
             </Link>
             <p className="text-center text-sm text-muted-foreground">
               Don&apos;t have an account?{" "}
@@ -145,7 +145,7 @@ export function AcceptInviteView({
                 href={`/register?next=/invite/${inviteId}`}
                 className="font-medium text-foreground hover:underline"
               >
-                Sign up
+                Regístrate
               </Link>
             </p>
           </div>

@@ -134,7 +134,7 @@ export function WorkspaceSwitcher({
           {/* Divider */}
           <div className="my-1 border-t border-border" />
 
-          {/* Create workspace */}
+          {/* Crear espacio de trabajo */}
           {creating ? (
             <form onSubmit={handleCreate} className="p-1">
               <input
@@ -142,7 +142,7 @@ export function WorkspaceSwitcher({
                 type="text"
                 value={newName}
                 onChange={(e) => setNewName(e.target.value)}
-                placeholder="Workspace name"
+                placeholder="Nombre del espacio de trabajo"
                 className="w-full rounded-md border border-border bg-background px-2 py-1.5 text-sm outline-none focus:ring-1 focus:ring-ring"
                 disabled={switching === "new"}
               />
@@ -166,7 +166,7 @@ export function WorkspaceSwitcher({
                   }}
                   className="rounded-md px-2 py-1 text-xs text-muted-foreground hover:bg-accent"
                 >
-                  Cancel
+                  Cancelar
                 </button>
               </div>
             </form>
@@ -176,7 +176,7 @@ export function WorkspaceSwitcher({
               className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
             >
               <Plus className="h-3.5 w-3.5" />
-              Create workspace
+              Crear espacio de trabajo
             </button>
           )}
         </div>

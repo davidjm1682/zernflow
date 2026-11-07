@@ -38,12 +38,12 @@ export async function GET(request: NextRequest) {
     .single();
 
   if (!workspace?.late_api_key_encrypted) {
-    return NextResponse.json({ error: "API key not configured" }, { status: 400 });
+    return NextResponse.json({ error: "API key no configurada" }, { status: 400 });
   }
 
   const channel = conversation.channels as { late_account_id: string } | null;
   if (!channel?.late_account_id) {
-    return NextResponse.json({ error: "Channel not found" }, { status: 404 });
+    return NextResponse.json({ error: "Canal no encontrado" }, { status: 404 });
   }
 
   // Fetch messages from Zernio API
@@ -82,7 +82,7 @@ export async function GET(request: NextRequest) {
   } catch (error) {
     console.error("Failed to fetch messages from Zernio API:", error);
     return NextResponse.json(
-      { error: "Failed to fetch messages" },
+      { error: "No se pudieron obtener los mensajes" },
       { status: 500 }
     );
   }
@@ -118,7 +118,7 @@ export async function POST(request: NextRequest) {
     .single();
 
   if (!conversation) {
-    return NextResponse.json({ error: "Conversation not found" }, { status: 404 });
+    return NextResponse.json({ error: "Conversación no encontrada" }, { status: 404 });
   }
 
   if (!conversation.late_conversation_id) {
@@ -140,7 +140,7 @@ export async function POST(request: NextRequest) {
     .single();
 
   if (!workspace?.late_api_key_encrypted) {
-    return NextResponse.json({ error: "API key not configured" }, { status: 400 });
+    return NextResponse.json({ error: "API key no configurada" }, { status: 400 });
   }
 
   // Send via Zernio SDK — Zernio stores the message, no local insert needed
@@ -185,7 +185,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("Failed to send message via Zernio API:", error);
     return NextResponse.json(
-      { error: `Failed to send message: ${error}` },
+      { error: `No se pudo enviar el mensaje: ${error}` },
       { status: 500 }
     );
   }

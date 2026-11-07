@@ -10,7 +10,7 @@ export async function switchWorkspace(workspaceId: string) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) return { error: "Not authenticated" };
+  if (!user) return { error: "No has iniciado sesión" };
 
   // Validate user has access to this workspace
   const { data: membership } = await supabase
@@ -20,7 +20,7 @@ export async function switchWorkspace(workspaceId: string) {
     .eq("workspace_id", workspaceId)
     .single();
 
-  if (!membership) return { error: "No access to this workspace" };
+  if (!membership) return { error: "No tienes acceso a este espacio de trabajo" };
 
   const cookieStore = await cookies();
   cookieStore.set(WORKSPACE_COOKIE, workspaceId, {
@@ -40,10 +40,10 @@ export async function createWorkspace(name: string) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) return { error: "Not authenticated" };
+  if (!user) return { error: "No has iniciado sesión" };
 
   const trimmed = name.trim();
-  if (!trimmed) return { error: "Name is required" };
+  if (!trimmed) return { error: "El nombre es obligatorio" };
 
   const slug = trimmed
     .toLowerCase()
@@ -57,7 +57,7 @@ export async function createWorkspace(name: string) {
     .single();
 
   if (error || !workspace) {
-    return { error: error?.message || "Failed to create workspace" };
+    return { error: error?.message || "No se pudo crear el espacio de trabajo" };
   }
 
   // Add user as owner

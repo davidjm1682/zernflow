@@ -120,7 +120,7 @@ export function TestPanel({
         return (
           <div>
             <span className="text-xs text-muted-foreground">
-              Type: {r.triggerType}
+              Tipo: {r.triggerType}
               {r.keywords && ` | Keywords: ${r.keywords.join(", ")}`}
             </span>
             <div className="mt-1">
@@ -193,8 +193,8 @@ export function TestPanel({
       case "delay":
         return (
           <p className="text-xs text-muted-foreground">
-            Would wait {r.duration} {r.unit}{" "}
-            <span className="text-amber-600">(skipped in test)</span>
+            Esperaría {r.duration} {r.unit}{" "}
+            <span className="text-amber-600">(omitido en la prueba)</span>
           </p>
         );
 
@@ -207,7 +207,7 @@ export function TestPanel({
         return (
           <p className="text-xs text-muted-foreground">
             {r.mode === "skipped"
-              ? "AI would generate a response here"
+              ? "La IA generaría una respuesta aquí"
               : r.text}
           </p>
         );
@@ -215,7 +215,7 @@ export function TestPanel({
       case "split":
         return (
           <p className="text-xs text-muted-foreground">
-            Randomly selected: <strong>{r.selectedPath}</strong> (weight:{" "}
+            Seleccionado al azar: <strong>{r.selectedPath}</strong> (peso:{" "}
             {r.weight})
           </p>
         );
@@ -223,15 +223,15 @@ export function TestPanel({
       case "smart_delay":
         return (
           <p className="text-xs text-muted-foreground">
-            Would wait for next user message{" "}
-            <span className="text-amber-600">(paused)</span>
+            Esperaría el siguiente mensaje del usuario{" "}
+            <span className="text-amber-600">(en pausa)</span>
           </p>
         );
 
       case "human_takeover":
         return (
           <p className="text-xs text-muted-foreground">
-            Automation paused, flagged for human review
+            Automatización en pausa, marcada para revisión humana
           </p>
         );
 
@@ -245,7 +245,7 @@ export function TestPanel({
       case "enroll_sequence":
         return (
           <p className="text-xs text-muted-foreground">
-            Would enroll in sequence:{" "}
+            Inscribiría en la secuencia:{" "}
             <span className="font-mono">{r.sequenceId}</span>
           </p>
         );
@@ -253,14 +253,14 @@ export function TestPanel({
       case "subscribe":
         return (
           <p className="text-xs text-muted-foreground">
-            Contact would be subscribed
+            El contacto se suscribiría
           </p>
         );
 
       case "unsubscribe":
         return (
           <p className="text-xs text-muted-foreground">
-            Contact would be unsubscribed
+            Se cancelaría la suscripción del contacto
           </p>
         );
 
@@ -293,7 +293,7 @@ export function TestPanel({
       case "flow_end":
         return (
           <p className="text-xs text-emerald-600 font-medium">
-            Flow completed successfully
+            Flujo completado con éxito
           </p>
         );
 
@@ -308,7 +308,7 @@ export function TestPanel({
       <div className="flex items-center justify-between border-b border-border px-4 py-3">
         <div className="flex items-center gap-2">
           <Play className="h-4 w-4 text-muted-foreground" />
-          <h3 className="text-sm font-semibold">Test Flow</h3>
+          <h3 className="text-sm font-semibold">Probar flujo</h3>
         </div>
         <button
           onClick={onClose}
@@ -322,13 +322,13 @@ export function TestPanel({
       <div className="space-y-3 border-b border-border p-4">
         <div>
           <label className="mb-1 block text-xs font-medium text-muted-foreground">
-            Simulated Message
+            Mensaje simulado
           </label>
           <input
             type="text"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-            placeholder="Type a test message..."
+            placeholder="Escribe un mensaje de prueba..."
             className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
             onKeyDown={(e) => {
               if (e.key === "Enter") runTest();
@@ -337,7 +337,7 @@ export function TestPanel({
         </div>
         <div>
           <label className="mb-1 block text-xs font-medium text-muted-foreground">
-            Mock Tags (comma-separated)
+            Etiquetas de prueba (separadas por comas)
           </label>
           <input
             type="text"
@@ -352,7 +352,7 @@ export function TestPanel({
           className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90 transition-opacity"
         >
           <Play className="h-3.5 w-3.5" />
-          Run Test
+          Ejecutar prueba
         </button>
       </div>
 
@@ -362,11 +362,11 @@ export function TestPanel({
           <div className="py-8 text-center">
             <Play className="mx-auto h-8 w-8 text-muted-foreground/50" />
             <p className="mt-2 text-sm text-muted-foreground">
-              Run a test to see the flow path
+              Ejecuta una prueba para ver el camino del flujo
             </p>
             <p className="mt-1 text-xs text-muted-foreground/70">
-              The simulator traces the execution path without sending real
-              messages.
+              El simulador traza la ruta de ejecución sin enviar mensajes
+              reales.
             </p>
           </div>
         ) : (

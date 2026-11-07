@@ -59,44 +59,44 @@ const fieldConfig: Record<
   }
 > = {
   has_tag: {
-    label: "Has tag",
-    operators: [{ value: "equals", label: "is" }],
+    label: "Tiene etiqueta",
+    operators: [{ value: "equals", label: "es" }],
     valueType: "tag",
   },
   missing_tag: {
-    label: "Missing tag",
-    operators: [{ value: "equals", label: "is" }],
+    label: "No tiene etiqueta",
+    operators: [{ value: "equals", label: "es" }],
     valueType: "tag",
   },
   custom_field: {
-    label: "Custom field",
+    label: "Campo personalizado",
     operators: [
-      { value: "equals", label: "equals" },
-      { value: "not_equals", label: "does not equal" },
-      { value: "contains", label: "contains" },
-      { value: "gt", label: "greater than" },
-      { value: "lt", label: "less than" },
+      { value: "equals", label: "es igual a" },
+      { value: "not_equals", label: "no es igual a" },
+      { value: "contains", label: "contiene" },
+      { value: "gt", label: "mayor que" },
+      { value: "lt", label: "menor que" },
     ],
     valueType: "custom_field",
   },
   platform: {
-    label: "Platform",
+    label: "Plataforma",
     operators: [
-      { value: "equals", label: "is" },
-      { value: "not_equals", label: "is not" },
+      { value: "equals", label: "es" },
+      { value: "not_equals", label: "no es" },
     ],
     valueType: "platform",
   },
   is_subscribed: {
-    label: "Subscribed",
-    operators: [{ value: "equals", label: "is" }],
+    label: "Suscrito",
+    operators: [{ value: "equals", label: "es" }],
     valueType: "boolean",
   },
   last_interaction: {
-    label: "Last interaction",
+    label: "Última interacción",
     operators: [
-      { value: "before", label: "before" },
-      { value: "after", label: "after" },
+      { value: "before", label: "antes de" },
+      { value: "after", label: "después de" },
     ],
     valueType: "date",
   },
@@ -151,7 +151,7 @@ function CombinatorToggle({
             : "text-muted-foreground hover:text-foreground"
         )}
       >
-        AND
+        Y
       </button>
       <button
         type="button"
@@ -163,7 +163,7 @@ function CombinatorToggle({
             : "text-muted-foreground hover:text-foreground"
         )}
       >
-        OR
+        O
       </button>
     </div>
   );
@@ -206,7 +206,7 @@ function FilterRuleRow({
             onChange={(e) => onChange({ ...rule, value: e.target.value })}
             className="rounded-lg border border-input bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
           >
-            <option value="">Select tag...</option>
+            <option value="">Selecciona etiqueta...</option>
             {tags.map((tag) => (
               <option key={tag.id} value={tag.id}>
                 {tag.name}
@@ -226,7 +226,7 @@ function FilterRuleRow({
               }}
               className="rounded-lg border border-input bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
             >
-              <option value="">Select field...</option>
+              <option value="">Selecciona campo...</option>
               {customFields.map((cf) => (
                 <option key={cf.id} value={cf.slug}>
                   {cf.name}
@@ -235,7 +235,7 @@ function FilterRuleRow({
             </select>
             <input
               type="text"
-              placeholder="Value..."
+              placeholder="Valor..."
               value={rule.value.split("::")[1] || ""}
               onChange={(e) => {
                 const fieldSlug = rule.value.split("::")[0] || "";
@@ -252,7 +252,7 @@ function FilterRuleRow({
             onChange={(e) => onChange({ ...rule, value: e.target.value })}
             className="rounded-lg border border-input bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
           >
-            <option value="">Select platform...</option>
+            <option value="">Selecciona plataforma...</option>
             {PLATFORMS.map((p) => (
               <option key={p} value={p}>
                 {PLATFORM_LABELS[p]}
@@ -267,8 +267,8 @@ function FilterRuleRow({
             onChange={(e) => onChange({ ...rule, value: e.target.value })}
             className="rounded-lg border border-input bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
           >
-            <option value="">Select...</option>
-            <option value="true">Yes</option>
+            <option value="">Selecciona...</option>
+            <option value="true">Sí</option>
             <option value="false">No</option>
           </select>
         );
@@ -285,7 +285,7 @@ function FilterRuleRow({
         return (
           <input
             type="text"
-            placeholder="Value..."
+            placeholder="Valor..."
             value={rule.value}
             onChange={(e) => onChange({ ...rule, value: e.target.value })}
             className="rounded-lg border border-input bg-background px-3 py-1.5 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
@@ -386,14 +386,14 @@ function FilterGroupCard({
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
           <span className="text-xs font-medium text-muted-foreground uppercase">
-            Match
+            Coincidir con
           </span>
           <CombinatorToggle
             value={group.combinator}
             onChange={(v) => onChange({ ...group, combinator: v })}
           />
           <span className="text-xs font-medium text-muted-foreground uppercase">
-            of the following
+            de lo siguiente
           </span>
         </div>
         {canRemove && (
@@ -436,7 +436,7 @@ function FilterGroupCard({
         className="mt-3 inline-flex items-center gap-1.5 text-xs font-medium text-primary hover:text-primary/80 transition-colors"
       >
         <Plus className="h-3 w-3" />
-        Add filter
+        Añadir filtro
       </button>
     </div>
   );
@@ -503,7 +503,7 @@ export function SegmentBuilder({
   if (loading) {
     return (
       <div className="rounded-lg border border-border bg-card p-6 text-center">
-        <p className="text-sm text-muted-foreground">Loading filters...</p>
+        <p className="text-sm text-muted-foreground">Cargando filtros...</p>
       </div>
     );
   }
@@ -514,7 +514,7 @@ export function SegmentBuilder({
       {value.groups.length > 1 && (
         <div className="flex items-center gap-2">
           <span className="text-xs font-medium text-muted-foreground uppercase">
-            Groups match
+            Los grupos coinciden con
           </span>
           <CombinatorToggle
             value={value.combinator}
@@ -551,7 +551,7 @@ export function SegmentBuilder({
         className="inline-flex items-center gap-1.5 rounded-lg border border-dashed border-border px-3 py-2 text-xs font-medium text-muted-foreground hover:border-primary hover:text-primary transition-colors"
       >
         <Plus className="h-3 w-3" />
-        Add filter group
+        Añadir grupo de filtros
       </button>
 
       {/* JSON preview (collapsible) */}
@@ -570,7 +570,7 @@ function ExportPreview({ filter }: { filter: SegmentFilter }) {
         onClick={() => setExpanded(!expanded)}
         className="flex w-full items-center justify-between px-3 py-2 text-xs font-medium text-muted-foreground hover:text-foreground transition-colors"
       >
-        <span>Filter JSON</span>
+        <span>JSON del filtro</span>
         <ChevronDown
           className={cn(
             "h-3.5 w-3.5 transition-transform",

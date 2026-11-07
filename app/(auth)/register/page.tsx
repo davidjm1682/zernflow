@@ -53,16 +53,16 @@ export default function RegisterPage() {
       <div className="w-full max-w-sm space-y-6">
         <div className="text-center">
           <Image src="/logo.png" alt="ZernFlow" width={48} height={48} className="mx-auto mb-3" />
-          <h1 className="text-2xl font-bold">Create your account</h1>
+          <h1 className="text-2xl font-bold">Crea tu cuenta</h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Get started with ZernFlow
+            Empieza con ZernFlow
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label htmlFor="name" className="block text-sm font-medium mb-1.5">
-              Name
+              Nombre
             </label>
             <input
               id="name"
@@ -71,7 +71,7 @@ export default function RegisterPage() {
               onChange={(e) => setName(e.target.value)}
               required
               className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
-              placeholder="Your name"
+              placeholder="Tu nombre"
             />
           </div>
 
@@ -80,7 +80,7 @@ export default function RegisterPage() {
               htmlFor="email"
               className="block text-sm font-medium mb-1.5"
             >
-              Email
+              Correo electrónico
             </label>
             <input
               id="email"
@@ -89,7 +89,7 @@ export default function RegisterPage() {
               onChange={(e) => setEmail(e.target.value)}
               required
               className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
-              placeholder="you@example.com"
+              placeholder="tu@ejemplo.com"
             />
           </div>
 
@@ -98,7 +98,7 @@ export default function RegisterPage() {
               htmlFor="password"
               className="block text-sm font-medium mb-1.5"
             >
-              Password
+              Contraseña
             </label>
             <input
               id="password"
@@ -108,7 +108,7 @@ export default function RegisterPage() {
               required
               minLength={6}
               className="w-full rounded-lg border border-input bg-background px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-ring"
-              placeholder="Min. 6 characters"
+              placeholder="Mín. 6 caracteres"
             />
           </div>
 
@@ -121,7 +121,7 @@ export default function RegisterPage() {
             disabled={loading}
             className="w-full rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground hover:opacity-90 disabled:opacity-50"
           >
-            {loading ? "Creating account..." : "Create account"}
+            {loading ? "Creando cuenta..." : "Crear cuenta"}
           </button>
         </form>
 
@@ -131,7 +131,7 @@ export default function RegisterPage() {
           </div>
           <div className="relative flex justify-center text-xs uppercase">
             <span className="bg-background px-2 text-muted-foreground">
-              Or continue with
+              O continúa con
             </span>
           </div>
         </div>
@@ -147,9 +147,9 @@ export default function RegisterPage() {
         </button>
 
         <p className="text-center text-sm text-muted-foreground">
-          Already have an account?{" "}
+          ¿Ya tienes una cuenta?{" "}
           <Link href="/login" className="font-medium text-foreground hover:underline">
-            Sign in
+            Iniciar sesión
           </Link>
         </p>
       </div>

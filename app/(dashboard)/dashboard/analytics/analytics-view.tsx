@@ -79,7 +79,7 @@ function getDateRange(range: TimeRange): { start: string; end: string } {
 }
 
 function formatShortDate(dateStr: string): string {
-  return new Date(dateStr).toLocaleDateString([], {
+  return new Date(dateStr).toLocaleDateString("es", {
     month: "short",
     day: "numeric",
   });
@@ -318,7 +318,7 @@ export function AnalyticsView({
           const starts = startCounts.get(fid) ?? 0;
           const completions = completionCounts.get(fid) ?? 0;
           const dropOffRate = starts > 0 ? Math.round(((starts - completions) / starts) * 100) : 0;
-          return { id: fid, name: flowNames.get(fid) ?? "Unknown Flow", starts, completions, dropOffRate };
+          return { id: fid, name: flowNames.get(fid) ?? "Flujo desconocido", starts, completions, dropOffRate };
         })
         .sort((a, b) => b.starts - a.starts)
         .slice(0, 10);
@@ -357,43 +357,43 @@ export function AnalyticsView({
       }
       setMessageVolume(msgData);
     } catch (err) {
-      console.error("Failed to fetch analytics:", err);
+      console.error("No se pudieron obtener las analíticas:", err);
     } finally {
       setLoading(false);
     }
   }
 
   const timeRangeOptions: { value: TimeRange; label: string }[] = [
-    { value: "7d", label: "Last 7 days" },
-    { value: "30d", label: "Last 30 days" },
-    { value: "90d", label: "Last 90 days" },
-    { value: "custom", label: "Custom" },
+    { value: "7d", label: "Últimos 7 días" },
+    { value: "30d", label: "Últimos 30 días" },
+    { value: "90d", label: "Últimos 90 días" },
+    { value: "custom", label: "Personalizado" },
   ];
 
   const statCards = [
     {
-      label: "Total Flows",
+      label: "Flujos totales",
       value: stats.totalFlows,
       icon: GitBranch,
       color: "text-blue-600",
       bg: "bg-blue-100",
     },
     {
-      label: "Total Contacts",
+      label: "Contactos totales",
       value: stats.totalContacts,
       icon: Users,
       color: "text-purple-600",
       bg: "bg-purple-100",
     },
     {
-      label: "Messages Sent",
+      label: "Mensajes enviados",
       value: stats.messagesSent,
       icon: Send,
       color: "text-green-600",
       bg: "bg-green-100",
     },
     {
-      label: "Messages Failed",
+      label: "Mensajes fallidos",
       value: stats.messagesFailed,
       icon: AlertTriangle,
       color: "text-red-600",
@@ -413,9 +413,9 @@ export function AnalyticsView({
       <div className="border-b border-border px-8 py-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold">Analytics</h1>
+            <h1 className="text-2xl font-bold">Analíticas</h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              Monitor your workspace performance
+              Supervisa el rendimiento de tu espacio de trabajo
             </p>
           </div>
 
@@ -462,7 +462,7 @@ export function AnalyticsView({
               disabled={!customStart || !customEnd}
               className="rounded-lg bg-primary px-3 py-1.5 text-sm font-medium text-primary-foreground hover:opacity-90 disabled:opacity-50"
             >
-              Apply
+              Aplicar
             </button>
           </div>
         )}
@@ -508,9 +508,9 @@ export function AnalyticsView({
               {/* Contact growth */}
               <div className="rounded-xl border border-border bg-card p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-sm font-semibold">Contact Growth</h3>
+                  <h3 className="text-sm font-semibold">Crecimiento de contactos</h3>
                   <span className="text-xs text-muted-foreground">
-                    New contacts per day
+                    Nuevos contactos por día
                   </span>
                 </div>
                 {contactGrowth.length > 0 ? (
@@ -532,7 +532,7 @@ export function AnalyticsView({
                   </>
                 ) : (
                   <p className="text-sm text-muted-foreground py-8 text-center">
-                    No data for this period
+                    Sin datos en este período
                   </p>
                 )}
               </div>
@@ -540,15 +540,15 @@ export function AnalyticsView({
               {/* Message volume */}
               <div className="rounded-xl border border-border bg-card p-6">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-sm font-semibold">Message Volume</h3>
+                  <h3 className="text-sm font-semibold">Volumen de mensajes</h3>
                   <div className="flex items-center gap-3">
                     <span className="flex items-center gap-1 text-[10px] text-muted-foreground">
                       <span className="inline-block h-2 w-2 rounded-full bg-green-500" />
-                      Sent
+                      Enviados
                     </span>
                     <span className="flex items-center gap-1 text-[10px] text-muted-foreground">
                       <span className="inline-block h-2 w-2 rounded-full bg-red-500" />
-                      Failed
+                      Fallidos
                     </span>
                   </div>
                 </div>
@@ -556,7 +556,7 @@ export function AnalyticsView({
                   <MessageVolumeChart data={messageVolume} maxVal={maxMessageVolume} />
                 ) : (
                   <p className="text-sm text-muted-foreground py-8 text-center">
-                    No data for this period
+                    Sin datos en este período
                   </p>
                 )}
               </div>
@@ -565,13 +565,13 @@ export function AnalyticsView({
             {/* Flow performance table */}
             <div className="rounded-xl border border-border bg-card">
               <div className="border-b border-border px-6 py-4">
-                <h3 className="text-sm font-semibold">Flow Performance</h3>
+                <h3 className="text-sm font-semibold">Rendimiento de flujos</h3>
               </div>
               {flowPerformance.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-12">
                   <GitBranch className="h-8 w-8 text-muted-foreground/40" />
                   <p className="mt-2 text-sm text-muted-foreground">
-                    No flow activity in this period
+                    Sin actividad de flujos en este período
                   </p>
                 </div>
               ) : (
@@ -579,16 +579,16 @@ export function AnalyticsView({
                   <thead>
                     <tr className="border-b border-border bg-muted/50 text-left">
                       <th className="px-6 py-3 text-xs font-medium uppercase text-muted-foreground">
-                        Flow Name
+                        Nombre del flujo
                       </th>
                       <th className="px-4 py-3 text-xs font-medium uppercase text-muted-foreground text-right">
-                        Starts
+                        Inicios
                       </th>
                       <th className="px-4 py-3 text-xs font-medium uppercase text-muted-foreground text-right">
-                        Completions
+                        Finalizaciones
                       </th>
                       <th className="px-6 py-3 text-xs font-medium uppercase text-muted-foreground text-right">
-                        Drop-off Rate
+                        Tasa de abandono
                       </th>
                     </tr>
                   </thead>

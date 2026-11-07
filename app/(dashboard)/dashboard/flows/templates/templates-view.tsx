@@ -49,10 +49,10 @@ interface FlowTemplate {
 const templates: FlowTemplate[] = [
   {
     id: "welcome-flow",
-    name: "Welcome Flow",
+    name: "Flujo de bienvenida",
     description:
-      "Greet new users with a welcome message, wait a minute, then send a follow-up to keep them engaged.",
-    category: "Onboarding",
+      "Saluda a los nuevos usuarios con un mensaje de bienvenida, espera un minuto y envía un seguimiento para mantenerlos interesados.",
+    category: "Incorporación",
     icon: MessageSquare,
     iconColor: "text-blue-600",
     iconBg: "bg-blue-100",
@@ -62,7 +62,7 @@ const templates: FlowTemplate[] = [
         type: "trigger",
         position: { x: 250, y: 0 },
         data: {
-          label: "Welcome Trigger",
+          label: "Disparador de bienvenida",
           triggerType: "welcome",
           config: {},
         },
@@ -72,8 +72,8 @@ const templates: FlowTemplate[] = [
         type: "sendMessage",
         position: { x: 250, y: 150 },
         data: {
-          label: "Greeting",
-          text: "Hey there! Welcome! We're glad to have you here. How can we help you today?",
+          label: "Saludo",
+          text: "¡Hola! ¡Bienvenido! Nos alegra tenerte aquí. ¿En qué podemos ayudarte hoy?",
         },
       },
       {
@@ -81,7 +81,7 @@ const templates: FlowTemplate[] = [
         type: "delay",
         position: { x: 250, y: 300 },
         data: {
-          label: "Wait 1 minute",
+          label: "Esperar 1 minuto",
           duration: 60,
           unit: "seconds",
         },
@@ -91,8 +91,8 @@ const templates: FlowTemplate[] = [
         type: "sendMessage",
         position: { x: 250, y: 450 },
         data: {
-          label: "Follow-up",
-          text: "By the way, feel free to ask me anything. I'm here to help!",
+          label: "Seguimiento",
+          text: "Por cierto, pregúntame lo que quieras. ¡Estoy aquí para ayudarte!",
         },
       },
     ],
@@ -104,10 +104,10 @@ const templates: FlowTemplate[] = [
   },
   {
     id: "faq-bot",
-    name: "FAQ Bot",
+    name: "Bot de preguntas frecuentes",
     description:
-      'Respond to "help" or "faq" keywords by checking the message and routing to different answer branches.',
-    category: "Support",
+      'Responde a las palabras clave "ayuda" o "faq" revisando el mensaje y dirigiéndolo a distintas ramas de respuesta.',
+    category: "Soporte",
     icon: HelpCircle,
     iconColor: "text-amber-600",
     iconBg: "bg-amber-100",
@@ -117,9 +117,9 @@ const templates: FlowTemplate[] = [
         type: "trigger",
         position: { x: 250, y: 0 },
         data: {
-          label: "FAQ Trigger",
+          label: "Disparador de preguntas frecuentes",
           triggerType: "keyword",
-          config: { keywords: ["help", "faq"] },
+          config: { keywords: ["ayuda", "faq"] },
         },
       },
       {
@@ -127,13 +127,13 @@ const templates: FlowTemplate[] = [
         type: "condition",
         position: { x: 250, y: 150 },
         data: {
-          label: "Check keyword",
+          label: "Revisar palabra clave",
           conditions: [
             {
               id: "c1",
               field: "trigger_keyword",
               operator: "equals",
-              value: "help",
+              value: "ayuda",
             },
           ],
         },
@@ -143,8 +143,8 @@ const templates: FlowTemplate[] = [
         type: "sendMessage",
         position: { x: 50, y: 350 },
         data: {
-          label: "Help response",
-          text: "Here are some things I can help you with:\n- Pricing info\n- Account setup\n- Technical support\n\nJust type your question and I'll do my best!",
+          label: "Respuesta de ayuda",
+          text: "Estas son algunas cosas en las que puedo ayudarte:\n- Información de precios\n- Configuración de la cuenta\n- Soporte técnico\n\n¡Escribe tu pregunta y haré lo posible por ayudarte!",
         },
       },
       {
@@ -152,8 +152,8 @@ const templates: FlowTemplate[] = [
         type: "sendMessage",
         position: { x: 450, y: 350 },
         data: {
-          label: "FAQ response",
-          text: "Here are our most frequently asked questions:\n\n1. How do I get started?\n2. What plans are available?\n3. How do I contact support?\n\nReply with a number for more details!",
+          label: "Respuesta de preguntas frecuentes",
+          text: "Estas son nuestras preguntas más frecuentes:\n\n1. ¿Cómo empiezo?\n2. ¿Qué planes hay disponibles?\n3. ¿Cómo contacto con soporte?\n\n¡Responde con un número para más detalles!",
         },
       },
     ],
@@ -175,9 +175,9 @@ const templates: FlowTemplate[] = [
   },
   {
     id: "lead-capture",
-    name: "Lead Capture",
+    name: "Captación de leads",
     description:
-      "Collect lead information step by step: ask for name, wait for response, save it, then ask for email and tag the contact.",
+      "Recopila información del lead paso a paso: pregunta el nombre, espera la respuesta, guárdala, luego pide el correo y etiqueta al contacto.",
     category: "Marketing",
     icon: UserPlus,
     iconColor: "text-green-600",
@@ -188,9 +188,9 @@ const templates: FlowTemplate[] = [
         type: "trigger",
         position: { x: 250, y: 0 },
         data: {
-          label: "Lead Trigger",
+          label: "Disparador de lead",
           triggerType: "keyword",
-          config: { keywords: ["interested", "info", "pricing"] },
+          config: { keywords: ["interesado", "info", "precio"] },
         },
       },
       {
@@ -198,8 +198,8 @@ const templates: FlowTemplate[] = [
         type: "sendMessage",
         position: { x: 250, y: 120 },
         data: {
-          label: "Ask name",
-          text: "Great, I'd love to help! What's your name?",
+          label: "Preguntar nombre",
+          text: "¡Genial, me encantaría ayudarte! ¿Cómo te llamas?",
         },
       },
       {
@@ -207,7 +207,7 @@ const templates: FlowTemplate[] = [
         type: "smartDelay",
         position: { x: 250, y: 240 },
         data: {
-          label: "Wait for name",
+          label: "Esperar nombre",
           waitForInput: true,
           timeout: 300,
         },
@@ -217,7 +217,7 @@ const templates: FlowTemplate[] = [
         type: "setCustomField",
         position: { x: 250, y: 360 },
         data: {
-          label: "Save name",
+          label: "Guardar nombre",
           fieldSlug: "name",
           value: "{{last_message}}",
         },
@@ -227,8 +227,8 @@ const templates: FlowTemplate[] = [
         type: "sendMessage",
         position: { x: 250, y: 480 },
         data: {
-          label: "Ask email",
-          text: "Thanks, {{name}}! What's your email address so we can send you more details?",
+          label: "Preguntar correo",
+          text: "¡Gracias, {{name}}! ¿Cuál es tu correo electrónico para enviarte más detalles?",
         },
       },
       {
@@ -236,7 +236,7 @@ const templates: FlowTemplate[] = [
         type: "smartDelay",
         position: { x: 250, y: 600 },
         data: {
-          label: "Wait for email",
+          label: "Esperar correo",
           waitForInput: true,
           timeout: 300,
         },
@@ -246,7 +246,7 @@ const templates: FlowTemplate[] = [
         type: "setCustomField",
         position: { x: 250, y: 720 },
         data: {
-          label: "Save email",
+          label: "Guardar correo",
           fieldSlug: "email",
           value: "{{last_message}}",
         },
@@ -256,7 +256,7 @@ const templates: FlowTemplate[] = [
         type: "addTag",
         position: { x: 250, y: 840 },
         data: {
-          label: 'Add "lead" tag',
+          label: 'Añadir etiqueta "lead"',
           tagName: "lead",
         },
       },
@@ -298,13 +298,13 @@ export function TemplatesView({ workspaceId }: { workspaceId: string }) {
       });
 
       if (!res.ok) {
-        throw new Error("Failed to create flow");
+        throw new Error("No se pudo crear el flujo");
       }
 
       const flow = await res.json();
       router.push(`/dashboard/flows/${flow.id}`);
     } catch (err) {
-      console.error("Failed to create flow from template:", err);
+      console.error("No se pudo crear el flujo desde la plantilla:", err);
       pendingRef.current = false;
       setCreating(null);
     }
@@ -322,21 +322,21 @@ export function TemplatesView({ workspaceId }: { workspaceId: string }) {
                 className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 <ArrowLeft className="h-4 w-4" />
-                Flows
+                Flujos
               </Link>
             </div>
-            <h1 className="text-2xl font-bold">Flow Templates</h1>
+            <h1 className="text-2xl font-bold">Plantillas de flujo</h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              Start with a pre-built flow and customize it to your needs
+              Empieza con un flujo prediseñado y adáptalo a tus necesidades
             </p>
           </div>
           <button
             disabled
             className="inline-flex items-center gap-2 rounded-lg border border-dashed border-border px-4 py-2 text-sm font-medium text-muted-foreground cursor-not-allowed opacity-60"
-            title="Coming soon"
+            title="Próximamente"
           >
             <BookmarkPlus className="h-4 w-4" />
-            Save Current Flow as Template
+            Guardar flujo actual como plantilla
           </button>
         </div>
       </div>
@@ -394,12 +394,12 @@ export function TemplatesView({ workspaceId }: { workspaceId: string }) {
                   {isCreating ? (
                     <span className="inline-flex items-center gap-2">
                       <Loader2 className="h-3.5 w-3.5 animate-spin" />
-                      Creating...
+                      Creando...
                     </span>
                   ) : (
                     <span className="inline-flex items-center gap-2">
                       <Sparkles className="h-3.5 w-3.5" />
-                      Use Template
+                      Usar plantilla
                     </span>
                   )}
                 </button>

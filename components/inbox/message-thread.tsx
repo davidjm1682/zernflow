@@ -15,7 +15,7 @@ type Conversation = Database["public"]["Tables"]["conversations"]["Row"] & {
 
 function formatMessageTime(dateStr: string): string {
   const date = new Date(dateStr);
-  return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  return date.toLocaleTimeString("es", { hour: "2-digit", minute: "2-digit" });
 }
 
 function formatDateSeparator(dateStr: string): string {
@@ -24,9 +24,9 @@ function formatDateSeparator(dateStr: string): string {
   const diffMs = now.getTime() - date.getTime();
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
-  if (diffDays === 0) return "Today";
-  if (diffDays === 1) return "Yesterday";
-  return date.toLocaleDateString([], {
+  if (diffDays === 0) return "Hoy";
+  if (diffDays === 1) return "Ayer";
+  return date.toLocaleDateString("es", {
     weekday: "long",
     month: "short",
     day: "numeric",
@@ -140,7 +140,7 @@ export function MessageThread({
       if (error) throw error;
       router.refresh();
     } catch {
-      alert(`Failed to update conversation status`);
+      alert(`No se pudo actualizar el estado de la conversación`);
     } finally {
       setStatusUpdating(null);
     }
@@ -191,7 +191,7 @@ export function MessageThread({
               });
             }
           } catch (err) {
-            console.error("Failed to refresh messages:", err);
+            console.error("No se pudieron actualizar los mensajes:", err);
           }
         }
       )
@@ -238,7 +238,7 @@ export function MessageThread({
 
       if (!res.ok) {
         const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData.error || `Send failed (${res.status})`);
+        throw new Error(errorData.error || `Falló el envío (${res.status})`);
       }
 
       const confirmedMessage: Message = await res.json();
@@ -248,7 +248,7 @@ export function MessageThread({
         prev.map((m) => (m.id === optimisticId ? confirmedMessage : m))
       );
     } catch (err) {
-      console.error("Failed to send message:", err);
+      console.error("No se pudo enviar el mensaje:", err);
       // Mark optimistic message as failed
       setMessages((prev) =>
         prev.map((m) =>
@@ -265,10 +265,10 @@ export function MessageThread({
       <div className="flex h-full flex-col items-center justify-center bg-background text-center">
         <MessageSquare className="h-12 w-12 text-muted-foreground/30" />
         <h3 className="mt-4 text-sm font-medium text-muted-foreground">
-          Select a conversation
+          Selecciona una conversación
         </h3>
         <p className="mt-1 text-xs text-muted-foreground/70">
-          Choose a conversation from the list to view messages
+          Elige una conversación de la lista para ver los mensajes
         </p>
       </div>
     );
@@ -317,11 +317,11 @@ export function MessageThread({
                 : "bg-muted text-muted-foreground"
             )}
           >
-            {conversation.status}
+            {({ open: "abierta", closed: "cerrada", snoozed: "pospuesta" } as Record<string, string>)[conversation.status] ?? conversation.status}
           </span>
           {conversation.is_automation_paused && (
             <span className="rounded-full bg-orange-100 px-2 py-0.5 text-[10px] font-medium text-orange-700">
-              Bot paused
+              Bot en pausa
             </span>
           )}
           <div className="flex items-center gap-1">
@@ -329,8 +329,8 @@ export function MessageThread({
               <button
                 onClick={() => updateConversationStatus("closed")}
                 disabled={!!statusUpdating}
-                title="Close conversation"
-                aria-label="Close conversation"
+                title="Cerrar conversación"
+                aria-label="Cerrar conversación"
                 className="rounded-md p-1 text-muted-foreground hover:bg-accent hover:text-foreground transition-colors disabled:opacity-50"
               >
                 {statusUpdating === "closed" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <CheckCircle className="h-3.5 w-3.5" />}
@@ -340,8 +340,8 @@ export function MessageThread({
               <button
                 onClick={() => updateConversationStatus("snoozed")}
                 disabled={!!statusUpdating}
-                title="Snooze conversation"
-                aria-label="Snooze conversation"
+                title="Posponer conversación"
+                aria-label="Posponer conversación"
                 className="rounded-md p-1 text-muted-foreground hover:bg-accent hover:text-foreground transition-colors disabled:opacity-50"
               >
                 {statusUpdating === "snoozed" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Clock className="h-3.5 w-3.5" />}
@@ -351,8 +351,8 @@ export function MessageThread({
               <button
                 onClick={() => updateConversationStatus("open")}
                 disabled={!!statusUpdating}
-                title="Reopen conversation"
-                aria-label="Reopen conversation"
+                title="Reabrir conversación"
+                aria-label="Reabrir conversación"
                 className="rounded-md p-1 text-muted-foreground hover:bg-accent hover:text-foreground transition-colors disabled:opacity-50"
               >
                 {statusUpdating === "open" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RotateCcw className="h-3.5 w-3.5" />}
@@ -400,7 +400,7 @@ export function MessageThread({
                   handleSend();
                 }
               }}
-              placeholder="Type a message..."
+              placeholder="Escribe un mensaje..."
               rows={1}
               className="w-full resize-none rounded-lg border border-input bg-background px-4 py-2.5 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
               style={{ maxHeight: 150 }}
@@ -409,7 +409,7 @@ export function MessageThread({
           <button
             onClick={handleSend}
             disabled={!input.trim() || sending}
-            aria-label="Send message"
+            aria-label="Enviar mensaje"
             className={cn(
               "flex h-10 w-10 items-center justify-center rounded-lg transition-colors",
               input.trim() && !sending

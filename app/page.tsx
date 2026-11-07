@@ -38,19 +38,19 @@ export default function Home() {
               className="hidden items-center gap-1.5 rounded-lg px-3 py-2 text-sm text-gray-500 hover:text-gray-900 sm:inline-flex"
             >
               <Github className="h-4 w-4" />
-              Star on GitHub
+              Danos una estrella en GitHub
             </Link>
             <Link
               href="/login"
               className="rounded-lg px-3 py-2 text-sm text-gray-500 hover:text-gray-900"
             >
-              Log in
+              Iniciar sesión
             </Link>
             <Link
               href="/register"
               className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
             >
-              Get started free
+              Empieza gratis
             </Link>
           </div>
         </div>
@@ -60,30 +60,30 @@ export default function Home() {
       <section className="mx-auto max-w-6xl px-6 pb-20 pt-20 sm:pt-28">
         <div className="mx-auto max-w-3xl text-center">
           <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50 px-4 py-1.5">
-            <span className="text-xs font-medium text-indigo-700">MIT Licensed</span>
+            <span className="text-xs font-medium text-indigo-700">Licencia MIT</span>
             <Link
               href="https://github.com/zernio-dev/zernflow"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-1 text-xs font-medium text-indigo-500 hover:text-indigo-700"
             >
-              View on GitHub <ArrowRight className="h-3 w-3" />
+              Ver en GitHub <ArrowRight className="h-3 w-3" />
             </Link>
           </div>
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-6xl">
-            The Open Source{" "}
-            <span className="text-indigo-600">ManyChat Alternative</span>
+            La alternativa{" "}
+            <span className="text-indigo-600">open source a ManyChat</span>
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-lg leading-relaxed text-gray-500">
-            Automate DMs, comments, and flows across Instagram, Facebook, WhatsApp,
-            Telegram, X, Bluesky, and Reddit. Free, self-hostable, and built for developers.
+            Automatiza mensajes directos, comentarios y flujos en Instagram, Facebook, WhatsApp,
+            Telegram, X, Bluesky y Reddit. Gratis, autoalojable y pensado para desarrolladores.
           </p>
           <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
             <Link
               href="/register"
               className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-600 px-6 py-3 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 sm:w-auto"
             >
-              Get started free
+              Empieza gratis
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
             <Link
@@ -93,10 +93,10 @@ export default function Home() {
               className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-6 py-3 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 sm:w-auto"
             >
               <Github className="h-4 w-4" />
-              View source code
+              Ver código fuente
             </Link>
           </div>
-          <p className="mt-4 text-xs text-gray-400">MIT licensed. Self-host or use our cloud. No credit card required.</p>
+          <p className="mt-4 text-xs text-gray-400">Licencia MIT. Autoalójalo o usa nuestra nube. Sin tarjeta de crédito.</p>
         </div>
 
         {/* Flow builder preview */}
@@ -106,7 +106,7 @@ export default function Home() {
               <div className="h-2.5 w-2.5 rounded-full bg-red-300" />
               <div className="h-2.5 w-2.5 rounded-full bg-yellow-300" />
               <div className="h-2.5 w-2.5 rounded-full bg-green-300" />
-              <span className="ml-3 text-xs text-gray-400">Welcome Flow</span>
+              <span className="ml-3 text-xs text-gray-400">Flujo de bienvenida</span>
             </div>
             <div className="relative flex min-h-[300px] items-center justify-center gap-4 p-8 sm:gap-6 sm:p-12"
               style={{
@@ -120,9 +120,9 @@ export default function Home() {
                   <div className="flex h-6 w-6 items-center justify-center rounded-md bg-indigo-50">
                     <MessageCircle className="h-3.5 w-3.5 text-indigo-600" />
                   </div>
-                  <span className="text-xs font-semibold text-gray-900">Comment trigger</span>
+                  <span className="text-xs font-semibold text-gray-900">Disparador de comentario</span>
                 </div>
-                <p className="text-[10px] text-gray-500">Keyword: &quot;info&quot;</p>
+                <p className="text-[10px] text-gray-500">Palabra clave: &quot;info&quot;</p>
               </div>
 
               <div className="hidden h-0.5 w-6 bg-gray-300 sm:block" />
@@ -133,9 +133,9 @@ export default function Home() {
                   <div className="flex h-6 w-6 items-center justify-center rounded-md bg-emerald-50">
                     <MessageSquare className="h-3.5 w-3.5 text-emerald-600" />
                   </div>
-                  <span className="text-xs font-semibold text-gray-900">Send DM</span>
+                  <span className="text-xs font-semibold text-gray-900">Enviar DM</span>
                 </div>
-                <p className="text-[10px] text-gray-500">&quot;Hey! Here&apos;s the link...&quot;</p>
+                <p className="text-[10px] text-gray-500">&quot;¡Hola! Aquí tienes el enlace...&quot;</p>
               </div>
 
               <div className="hidden h-0.5 w-6 bg-gray-300 sm:block" />
@@ -146,9 +146,9 @@ export default function Home() {
                   <div className="flex h-6 w-6 items-center justify-center rounded-md bg-amber-50">
                     <Users className="h-3.5 w-3.5 text-amber-600" />
                   </div>
-                  <span className="text-xs font-semibold text-gray-900">Tag as lead</span>
+                  <span className="text-xs font-semibold text-gray-900">Etiquetar como lead</span>
                 </div>
-                <p className="text-[10px] text-gray-500">Tag: &quot;interested&quot;</p>
+                <p className="text-[10px] text-gray-500">Etiqueta: &quot;interesado&quot;</p>
               </div>
             </div>
           </div>
@@ -158,7 +158,7 @@ export default function Home() {
       {/* Platforms */}
       <section className="border-y border-gray-100 bg-gray-50/60 py-10">
         <div className="mx-auto max-w-6xl px-6">
-          <p className="mb-4 text-center text-xs font-medium uppercase tracking-wider text-gray-400">Works with 7 platforms (ManyChat only supports 2)</p>
+          <p className="mb-4 text-center text-xs font-medium uppercase tracking-wider text-gray-400">Funciona con 7 plataformas (ManyChat solo admite 2)</p>
           <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
             {[
               { name: "Instagram", platform: "instagram" },
@@ -183,10 +183,10 @@ export default function Home() {
         <div className="mx-auto max-w-6xl px-6">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl">
-              Why teams switch from ManyChat
+              Por qué los equipos se cambian desde ManyChat
             </h2>
             <p className="mt-3 text-base text-gray-500">
-              Same features you rely on. More platforms. No monthly bill.
+              Las mismas funciones en las que confías. Más plataformas. Sin cuota mensual.
             </p>
           </div>
           <div className="mx-auto mt-12 max-w-3xl">
@@ -203,21 +203,21 @@ export default function Home() {
               </div>
               {/* Rows */}
               {[
-                { feature: "Instagram & Facebook", manychat: true, zernflow: true },
+                { feature: "Instagram y Facebook", manychat: true, zernflow: true },
                 { feature: "WhatsApp", manychat: true, zernflow: true },
                 { feature: "Telegram", manychat: false, zernflow: true },
                 { feature: "X / Twitter", manychat: false, zernflow: true },
-                { feature: "Bluesky & Reddit", manychat: false, zernflow: true },
-                { feature: "Visual flow builder", manychat: true, zernflow: true },
-                { feature: "AI responses (BYO key)", manychat: true, zernflow: true },
-                { feature: "Choose your AI provider", manychat: false, zernflow: true },
-                { feature: "Comment-to-DM", manychat: true, zernflow: true },
-                { feature: "Live chat inbox", manychat: true, zernflow: true },
-                { feature: "Sequences / drip campaigns", manychat: true, zernflow: true },
-                { feature: "Contact CRM", manychat: true, zernflow: true },
-                { feature: "Open source", manychat: false, zernflow: true },
-                { feature: "Self-hostable", manychat: false, zernflow: true },
-                { feature: "Free forever", manychat: false, zernflow: true },
+                { feature: "Bluesky y Reddit", manychat: false, zernflow: true },
+                { feature: "Constructor visual de flujos", manychat: true, zernflow: true },
+                { feature: "Respuestas con IA (con tu propia clave)", manychat: true, zernflow: true },
+                { feature: "Elige tu proveedor de IA", manychat: false, zernflow: true },
+                { feature: "Comentario a DM", manychat: true, zernflow: true },
+                { feature: "Bandeja de chat en vivo", manychat: true, zernflow: true },
+                { feature: "Secuencias / campañas de goteo", manychat: true, zernflow: true },
+                { feature: "CRM de contactos", manychat: true, zernflow: true },
+                { feature: "Código abierto", manychat: false, zernflow: true },
+                { feature: "Autoalojable", manychat: false, zernflow: true },
+                { feature: "Gratis para siempre", manychat: false, zernflow: true },
               ].map((row) => (
                 <div key={row.feature} className="grid grid-cols-3 border-b border-gray-100 last:border-b-0">
                   <div className="px-6 py-3">
@@ -245,55 +245,55 @@ export default function Home() {
         <div className="mx-auto max-w-6xl px-6">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl">
-              Everything you need to grow on social
+              Todo lo que necesitas para crecer en redes
             </h2>
           </div>
           <div className="mt-14 grid gap-px overflow-hidden rounded-2xl border border-gray-200 bg-gray-200 sm:grid-cols-2 lg:grid-cols-3">
             {[
               {
                 icon: MessageCircle,
-                title: "Comment-to-DM",
-                desc: "Someone comments a keyword? Instantly DM them your link, offer, or lead magnet.",
+                title: "Comentario a DM",
+                desc: "¿Alguien comenta una palabra clave? Envíale al instante por DM tu enlace, oferta o lead magnet.",
               },
               {
                 icon: GitBranch,
-                title: "Visual flow builder",
-                desc: "Drag-and-drop conversation flows. Welcome messages, follow-ups, sales funnels. No code.",
+                title: "Constructor visual de flujos",
+                desc: "Flujos de conversación de arrastrar y soltar. Mensajes de bienvenida, seguimientos, embudos de venta. Sin código.",
               },
               {
                 icon: Sparkles,
-                title: "AI responses",
-                desc: "Let AI handle conversations. Pick your provider: OpenAI, Anthropic, or Google. Your API key, your choice.",
+                title: "Respuestas con IA",
+                desc: "Deja que la IA atienda las conversaciones. Elige tu proveedor: OpenAI, Anthropic o Google. Tu API key, tu decisión.",
               },
               {
                 icon: MessageSquare,
-                title: "Live chat inbox",
-                desc: "All your DMs in one place. Bot handles the easy stuff, you jump in when it matters.",
+                title: "Bandeja de chat en vivo",
+                desc: "Todos tus DMs en un solo lugar. El bot se encarga de lo sencillo y tú entras cuando importa.",
               },
               {
                 icon: Users,
-                title: "Contact CRM",
-                desc: "Tag your audience, build segments, track interactions. Right message to the right people.",
+                title: "CRM de contactos",
+                desc: "Etiqueta a tu audiencia, crea segmentos y sigue las interacciones. El mensaje correcto para las personas correctas.",
               },
               {
                 icon: Radio,
-                title: "Broadcasts",
-                desc: "Send promotions and updates to your audience. Target by tags, platform, or segments.",
+                title: "Difusiones",
+                desc: "Envía promociones y novedades a tu audiencia. Segmenta por etiquetas, plataforma o segmentos.",
               },
               {
                 icon: ListOrdered,
-                title: "Sequences",
-                desc: "Drip campaigns that run on autopilot. Message, wait, message. Enroll contacts from flows.",
+                title: "Secuencias",
+                desc: "Campañas de goteo en piloto automático. Mensaje, espera, mensaje. Inscribe contactos desde los flujos.",
               },
               {
                 icon: Link2,
-                title: "Growth tools",
-                desc: "Generate DM starter links for every platform. Share them anywhere to start conversations.",
+                title: "Herramientas de crecimiento",
+                desc: "Genera enlaces de inicio de DM para cada plataforma. Compártelos donde quieras para iniciar conversaciones.",
               },
               {
                 icon: Zap,
-                title: "Webhooks & API",
-                desc: "Connect to any tool. Push leads to Google Sheets, trigger Zapier, call external APIs.",
+                title: "Webhooks y API",
+                desc: "Conéctate con cualquier herramienta. Envía leads a Google Sheets, activa Zapier, llama a APIs externas.",
               },
             ].map((item) => {
               const Icon = item.icon;
@@ -316,19 +316,19 @@ export default function Home() {
             <div>
               <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-gray-200 px-3 py-1">
                 <Github className="h-3.5 w-3.5 text-gray-500" />
-                <span className="text-xs font-medium text-gray-500">MIT licensed</span>
+                <span className="text-xs font-medium text-gray-500">Licencia MIT</span>
               </div>
               <h2 className="text-2xl font-bold text-gray-900 sm:text-3xl">
-                Open source. Not open-washing.
+                Código abierto de verdad. Sin falsas promesas.
               </h2>
               <p className="mt-4 text-base leading-relaxed text-gray-500">
-                ZernFlow is fully open source under the MIT license. Read every line of code,
-                self-host on your own infrastructure, or fork it and make it yours.
-                No &ldquo;open core&rdquo; tricks, no enterprise-only features behind a paywall.
+                ZernFlow es totalmente de código abierto bajo la licencia MIT. Lee cada línea de código,
+                autoalójalo en tu propia infraestructura o haz un fork y hazlo tuyo.
+                Sin trucos de &ldquo;open core&rdquo;, sin funciones solo para empresas detrás de un muro de pago.
               </p>
               <p className="mt-3 text-base leading-relaxed text-gray-500">
-                Your automations, your contacts, your data. You own everything.
-                No vendor lock-in, ever.
+                Tus automatizaciones, tus contactos, tus datos. Todo es tuyo.
+                Sin dependencia de proveedor, nunca.
               </p>
               <div className="mt-6">
                 <Link
@@ -338,17 +338,17 @@ export default function Home() {
                   className="inline-flex items-center gap-2 text-sm font-medium text-indigo-600 hover:text-indigo-700"
                 >
                   <Github className="h-4 w-4" />
-                  Star us on GitHub
+                  Danos una estrella en GitHub
                   <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
               </div>
             </div>
             <div className="space-y-3">
               {[
-                { label: "7 platforms, one tool", detail: "Instagram, Facebook, WhatsApp, Telegram, X, Bluesky, Reddit. ManyChat only does 3." },
-                { label: "Free forever", detail: "No monthly fees. No per-account charges. No feature limits." },
-                { label: "Self-hostable", detail: "Clone the repo, set your env vars, deploy. Your server, your rules." },
-                { label: "Community-driven", detail: "Built in public. PRs welcome. Roadmap shaped by users, not investors." },
+                { label: "7 plataformas, una sola herramienta", detail: "Instagram, Facebook, WhatsApp, Telegram, X, Bluesky, Reddit. ManyChat solo hace 3." },
+                { label: "Gratis para siempre", detail: "Sin cuotas mensuales. Sin cargos por cuenta. Sin límites de funciones." },
+                { label: "Autoalojable", detail: "Clona el repositorio, define tus variables de entorno y despliega. Tu servidor, tus reglas." },
+                { label: "Impulsado por la comunidad", detail: "Construido en público. Los PRs son bienvenidos. La hoja de ruta la marcan los usuarios, no los inversores." },
               ].map((item) => (
                 <div key={item.label} className="rounded-xl border border-gray-200 px-5 py-4">
                   <p className="text-sm font-semibold text-gray-900">{item.label}</p>
@@ -364,27 +364,27 @@ export default function Home() {
       <section className="border-t border-gray-100 bg-gray-50/60 py-20">
         <div className="mx-auto max-w-6xl px-6">
           <h2 className="text-center text-2xl font-bold text-gray-900 sm:text-3xl">
-            Up and running in 5 minutes
+            Funcionando en 5 minutos
           </h2>
           <div className="mx-auto mt-14 grid max-w-3xl gap-10 sm:grid-cols-3">
             {[
               {
                 step: "1",
                 icon: CheckCircle,
-                title: "Connect your accounts",
-                desc: "Link your Instagram, Facebook, WhatsApp, Telegram, or any other platform in a few clicks.",
+                title: "Conecta tus cuentas",
+                desc: "Vincula tu Instagram, Facebook, WhatsApp, Telegram o cualquier otra plataforma en unos clics.",
               },
               {
                 step: "2",
                 icon: GitBranch,
-                title: "Build a flow",
-                desc: "Use the visual builder to create your automation. Pick a trigger, add messages, set conditions.",
+                title: "Crea un flujo",
+                desc: "Usa el constructor visual para crear tu automatización. Elige un disparador, añade mensajes y define condiciones.",
               },
               {
                 step: "3",
                 icon: TrendingUp,
-                title: "Watch it grow",
-                desc: "Your flows run 24/7. Capture leads, answer questions, and sell while you sleep.",
+                title: "Míralo crecer",
+                desc: "Tus flujos funcionan 24/7. Capta leads, responde preguntas y vende mientras duermes.",
               },
             ].map((item) => {
               const Icon = item.icon;
@@ -406,24 +406,24 @@ export default function Home() {
       <section className="py-20">
         <div className="mx-auto max-w-6xl px-6">
           <h2 className="text-center text-2xl font-bold text-gray-900 sm:text-3xl">
-            Built for creators, businesses, and agencies
+            Pensado para creadores, negocios y agencias
           </h2>
           <div className="mx-auto mt-12 grid max-w-4xl gap-6 sm:grid-cols-3">
             {[
               {
                 icon: Heart,
-                title: "Creators",
-                desc: "Auto-reply to comments, send lead magnets via DM, and grow your email list from social.",
+                title: "Creadores",
+                desc: "Responde comentarios automáticamente, envía lead magnets por DM y haz crecer tu lista de correo desde redes.",
               },
               {
                 icon: TrendingUp,
-                title: "Small businesses",
-                desc: "Qualify leads through DM conversations, answer FAQs instantly, and book appointments on autopilot.",
+                title: "Pequeños negocios",
+                desc: "Califica leads mediante conversaciones por DM, responde preguntas frecuentes al instante y agenda citas en piloto automático.",
               },
               {
                 icon: Users,
-                title: "Agencies",
-                desc: "Manage all your clients' accounts in one workspace. Build flows once, reuse them across brands.",
+                title: "Agencias",
+                desc: "Gestiona las cuentas de todos tus clientes en un solo espacio de trabajo. Crea flujos una vez y reutilízalos en varias marcas.",
               },
             ].map((item) => {
               const Icon = item.icon;
@@ -445,18 +445,18 @@ export default function Home() {
           <div className="rounded-2xl bg-indigo-600 p-10 sm:p-14">
             <div className="mx-auto max-w-xl text-center">
               <h2 className="text-2xl font-bold text-white sm:text-3xl">
-                Stop paying for chat automation
+                Deja de pagar por automatización de chat
               </h2>
               <p className="mt-3 text-sm text-indigo-100">
-                Switch from ManyChat in minutes. Import your flows, connect your accounts, and go live.
-                Free forever, open source, MIT licensed.
+                Cámbiate desde ManyChat en minutos. Importa tus flujos, conecta tus cuentas y sal en vivo.
+                Gratis para siempre, código abierto, licencia MIT.
               </p>
               <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
                 <Link
                   href="/register"
                   className="inline-flex items-center gap-2 rounded-lg bg-white px-6 py-3 text-sm font-medium text-indigo-600 shadow-sm hover:bg-indigo-50"
                 >
-                  Get started free
+                  Empieza gratis
                   <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
                 <Link
@@ -466,7 +466,7 @@ export default function Home() {
                   className="inline-flex items-center gap-2 rounded-lg border border-indigo-400 px-6 py-3 text-sm font-medium text-white hover:bg-indigo-500"
                 >
                   <Github className="h-4 w-4" />
-                  Star on GitHub
+                  Danos una estrella en GitHub
                 </Link>
               </div>
             </div>
@@ -500,7 +500,7 @@ export default function Home() {
             </Link>
           </div>
           <p className="text-xs text-gray-400">
-            Open source, MIT licensed
+            Código abierto, licencia MIT
           </p>
         </div>
       </footer>

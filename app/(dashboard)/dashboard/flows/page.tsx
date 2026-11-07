@@ -7,24 +7,24 @@ import type { FlowStatus } from "@/lib/types/database";
 
 const statusConfig: Record<FlowStatus, { label: string; classes: string }> = {
   draft: {
-    label: "Draft",
+    label: "Borrador",
     classes:
       "bg-muted text-muted-foreground",
   },
   published: {
-    label: "Published",
+    label: "Publicado",
     classes:
       "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400",
   },
   archived: {
-    label: "Archived",
+    label: "Archivado",
     classes:
       "bg-amber-100 text-amber-800 dark:bg-amber-900/30 dark:text-amber-400",
   },
 };
 
 function formatDate(dateString: string) {
-  return new Date(dateString).toLocaleDateString("en-US", {
+  return new Date(dateString).toLocaleDateString("es", {
     month: "short",
     day: "numeric",
     year: "numeric",
@@ -54,9 +54,9 @@ export default async function FlowsPage() {
       <div className="border-b border-border px-8 py-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold">Flows</h1>
+            <h1 className="text-2xl font-bold">Flujos</h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              Build automated chatbot flows for your channels
+              Crea flujos de chatbot automatizados para tus canales
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -66,7 +66,7 @@ export default async function FlowsPage() {
               className="inline-flex items-center gap-2 rounded-lg border border-border px-4 py-2 text-sm font-medium text-muted-foreground hover:bg-accent hover:text-foreground transition-colors"
             >
               <Sparkles className="h-4 w-4" />
-              Templates
+              Plantillas
             </Link>
             <CreateFlowButton />
           </div>
@@ -80,16 +80,16 @@ export default async function FlowsPage() {
             <Plug className="h-5 w-5 text-primary" />
           </div>
           <div className="flex-1">
-            <p className="text-sm font-medium">Connect a channel to get started</p>
+            <p className="text-sm font-medium">Conecta un canal para empezar</p>
             <p className="text-xs text-muted-foreground">
-              Link your social media accounts so your flows can send and receive messages.
+              Vincula tus cuentas de redes sociales para que tus flujos puedan enviar y recibir mensajes.
             </p>
           </div>
           <Link
             href="/dashboard/channels"
             className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90 transition-opacity"
           >
-            Connect
+            Conectar
           </Link>
         </div>
       )}
@@ -97,9 +97,9 @@ export default async function FlowsPage() {
       {!flows || flows.length === 0 ? (
         <div className="mt-12 rounded-xl border border-dashed border-border p-12 text-center">
           <GitBranch className="mx-auto h-10 w-10 text-muted-foreground" />
-          <h2 className="mt-4 text-lg font-semibold">No flows yet</h2>
+          <h2 className="mt-4 text-lg font-semibold">Aún no hay flujos</h2>
           <p className="mt-2 text-sm text-muted-foreground">
-            Create your first flow to start automating conversations.
+            Crea tu primer flujo para empezar a automatizar conversaciones.
           </p>
           <div className="mt-4">
             <CreateFlowButton />

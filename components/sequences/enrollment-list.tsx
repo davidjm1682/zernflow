@@ -15,23 +15,23 @@ interface Enrollment {
 
 const statusConfig = {
   active: {
-    label: "Active",
+    label: "Activo",
     classes:
       "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400",
   },
   completed: {
-    label: "Completed",
+    label: "Completado",
     classes:
       "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400",
   },
   cancelled: {
-    label: "Cancelled",
+    label: "Cancelado",
     classes: "bg-muted text-muted-foreground",
   },
 };
 
 function formatDate(dateStr: string) {
-  return new Date(dateStr).toLocaleDateString("en-US", {
+  return new Date(dateStr).toLocaleDateString("es", {
     month: "short",
     day: "numeric",
     year: "numeric",
@@ -65,19 +65,19 @@ export function EnrollmentList({
   return (
     <div className="px-8 py-6">
       <div className="mx-auto max-w-2xl">
-        <h2 className="text-lg font-semibold">Enrollments</h2>
+        <h2 className="text-lg font-semibold">Inscripciones</h2>
         <p className="mt-1 text-sm text-muted-foreground">
-          Contacts currently in this sequence
+          Contactos que están ahora en esta secuencia
         </p>
 
         {enrollments.length === 0 ? (
           <div className="mt-6 rounded-lg border border-dashed border-border p-8 text-center">
             <Users className="mx-auto h-8 w-8 text-muted-foreground/40" />
             <p className="mt-2 text-sm text-muted-foreground">
-              No contacts enrolled yet
+              Aún no hay contactos inscritos
             </p>
             <p className="mt-1 text-xs text-muted-foreground/70">
-              Contacts can be enrolled via flows or manually
+              Los contactos pueden inscribirse mediante flujos o manualmente
             </p>
           </div>
         ) : (
@@ -114,7 +114,7 @@ export function EnrollmentList({
                       onClick={() => handleCancel(enrollment.id)}
                       disabled={isCancelling}
                       className="rounded-lg p-1.5 text-muted-foreground hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-900/20 dark:hover:text-red-400 disabled:opacity-50"
-                      title="Cancel enrollment"
+                      title="Cancelar inscripción"
                     >
                       {isCancelling ? (
                         <Loader2 className="h-3.5 w-3.5 animate-spin" />

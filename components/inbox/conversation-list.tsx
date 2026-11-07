@@ -19,13 +19,13 @@ function formatTime(dateStr: string | null): string {
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
   if (diffDays === 0) {
-    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+    return date.toLocaleTimeString("es", { hour: "2-digit", minute: "2-digit" });
   }
-  if (diffDays === 1) return "Yesterday";
+  if (diffDays === 1) return "Ayer";
   if (diffDays < 7) {
-    return date.toLocaleDateString([], { weekday: "short" });
+    return date.toLocaleDateString("es", { weekday: "short" });
   }
-  return date.toLocaleDateString([], { month: "short", day: "numeric" });
+  return date.toLocaleDateString("es", { month: "short", day: "numeric" });
 }
 
 export function ConversationList({
@@ -115,7 +115,7 @@ export function ConversationList({
     <div className="flex h-full flex-col border-r border-border bg-background">
       {/* Header */}
       <div className="flex h-14 items-center justify-between border-b border-border px-4">
-        <h2 className="text-sm font-semibold">Inbox</h2>
+        <h2 className="text-sm font-semibold">Bandeja</h2>
         <span className="text-xs text-muted-foreground">
           {filtered.length} conversation{filtered.length !== 1 ? "s" : ""}
         </span>
@@ -127,7 +127,7 @@ export function ConversationList({
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <input
             type="text"
-            placeholder="Search conversations..."
+            placeholder="Buscar conversaciones..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full rounded-lg border border-input bg-background py-2 pl-9 pr-3 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
@@ -148,7 +148,7 @@ export function ConversationList({
                 : "text-muted-foreground hover:bg-accent hover:text-accent-foreground"
             )}
           >
-            {status}
+            {({ all: "todas", open: "abiertas", closed: "cerradas", snoozed: "pospuestas" } as Record<string, string>)[status]}
           </button>
         ))}
       </div>
@@ -158,7 +158,7 @@ export function ConversationList({
         {filtered.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12 text-center">
             <MessageSquare className="h-8 w-8 text-muted-foreground/50" />
-            <p className="mt-2 text-sm text-muted-foreground">No conversations found</p>
+            <p className="mt-2 text-sm text-muted-foreground">No se encontraron conversaciones</p>
           </div>
         ) : (
           filtered.map((conversation) => (
@@ -207,7 +207,7 @@ export function ConversationList({
                 </div>
                 <div className="flex items-center justify-between">
                   <p className="mt-0.5 truncate text-xs text-muted-foreground">
-                    {conversation.last_message_preview ?? "No messages yet"}
+                    {conversation.last_message_preview ?? "Aún no hay mensajes"}
                   </p>
                   {conversation.unread_count > 0 && (
                     <span className="ml-2 flex h-5 min-w-5 flex-shrink-0 items-center justify-center rounded-full bg-primary px-1.5 text-[10px] font-bold text-primary-foreground">

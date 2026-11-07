@@ -8,7 +8,7 @@ export async function createSequence(name: string) {
   const { workspace, supabase } = await getWorkspace();
 
   const trimmed = name.trim();
-  if (!trimmed) return { error: "Name is required" };
+  if (!trimmed) return { error: "El nombre es obligatorio" };
 
   const { data, error } = await supabase
     .from("sequences")
@@ -41,7 +41,7 @@ export async function updateSequence(
     .eq("workspace_id", workspace.id)
     .single();
 
-  if (!existing) return { error: "Sequence not found" };
+  if (!existing) return { error: "Secuencia no encontrada" };
 
   const { data, error } = await supabase
     .from("sequences")
@@ -91,11 +91,11 @@ export async function enrollContact(
     .eq("workspace_id", workspace.id)
     .single();
 
-  if (!sequence) return { error: "Sequence not found" };
-  if (sequence.status !== "active") return { error: "Sequence is not active" };
+  if (!sequence) return { error: "Secuencia no encontrada" };
+  if (sequence.status !== "active") return { error: "La secuencia no está activa" };
 
   const steps = (sequence.steps as unknown as SequenceStep[]) || [];
-  if (steps.length === 0) return { error: "Sequence has no steps" };
+  if (steps.length === 0) return { error: "La secuencia no tiene pasos" };
 
   // Calculate next_step_at based on first step
   let nextStepAt: string;
@@ -122,7 +122,7 @@ export async function enrollContact(
 
   if (error) {
     if (error.code === "23505") {
-      return { error: "Contact is already enrolled in this sequence" };
+      return { error: "El contacto ya está inscrito en esta secuencia" };
     }
     return { error: error.message };
   }
@@ -141,11 +141,11 @@ export async function cancelEnrollment(enrollmentId: string) {
     .eq("id", enrollmentId)
     .single();
 
-  if (!enrollment) return { error: "Enrollment not found" };
+  if (!enrollment) return { error: "Inscripción no encontrada" };
 
   const seq = enrollment.sequences as unknown as { workspace_id: string };
   if (seq.workspace_id !== workspace.id) {
-    return { error: "Enrollment not found" };
+    return { error: "Inscripción no encontrada" };
   }
 
   const { error } = await supabase

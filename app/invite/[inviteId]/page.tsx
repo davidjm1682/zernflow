@@ -21,15 +21,15 @@ export default async function InvitePage({
     return (
       <div className="flex min-h-screen items-center justify-center px-4">
         <div className="w-full max-w-sm text-center space-y-4">
-          <h1 className="text-2xl font-bold">Invite not found</h1>
+          <h1 className="text-2xl font-bold">Invitación no encontrada</h1>
           <p className="text-sm text-muted-foreground">
-            This invite link may be invalid or has been revoked.
+            Este enlace de invitación puede ser inválido o haber sido revocado.
           </p>
           <a
             href="/login"
             className="inline-flex rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
           >
-            Go to Login
+            Ir a iniciar sesión
           </a>
         </div>
       </div>
@@ -43,16 +43,16 @@ export default async function InvitePage({
     return (
       <div className="flex min-h-screen items-center justify-center px-4">
         <div className="w-full max-w-sm text-center space-y-4">
-          <h1 className="text-2xl font-bold">Invite expired</h1>
+          <h1 className="text-2xl font-bold">Invitación expirada</h1>
           <p className="text-sm text-muted-foreground">
-            This invite has expired. Please ask the workspace owner to send a
-            new one.
+            Esta invitación ha expirado. Pide al propietario del espacio de trabajo que envíe una
+            nueva.
           </p>
           <a
             href="/login"
             className="inline-flex rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
           >
-            Go to Login
+            Ir a iniciar sesión
           </a>
         </div>
       </div>
@@ -63,15 +63,15 @@ export default async function InvitePage({
     return (
       <div className="flex min-h-screen items-center justify-center px-4">
         <div className="w-full max-w-sm text-center space-y-4">
-          <h1 className="text-2xl font-bold">Invite already used</h1>
+          <h1 className="text-2xl font-bold">Invitación ya utilizada</h1>
           <p className="text-sm text-muted-foreground">
-            This invite has already been accepted.
+            Esta invitación ya fue aceptada.
           </p>
           <a
             href="/dashboard"
             className="inline-flex rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:opacity-90"
           >
-            Go to Dashboard
+            Ir al panel
           </a>
         </div>
       </div>

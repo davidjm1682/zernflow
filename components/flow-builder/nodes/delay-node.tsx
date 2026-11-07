@@ -12,12 +12,12 @@ export interface DelayNodeProps {
 
 export function DelayNode({ data, selected }: NodeProps) {
   const nodeData = data as DelayNodeProps;
-  const label = nodeData.label || "Delay";
+  const label = nodeData.label || "Retraso";
   const duration = nodeData.duration || 0;
   const unit = nodeData.unit || "minutes";
 
   const displayDuration =
-    duration > 0 ? `${duration} ${unit}` : "Not configured";
+    duration > 0 ? `${duration} ${({ seconds: "segundos", minutes: "minutos", hours: "horas", days: "días" } as Record<string, string>)[unit] ?? unit}` : "Sin configurar";
 
   return (
     <div
@@ -33,7 +33,7 @@ export function DelayNode({ data, selected }: NodeProps) {
       />
       <div className="flex items-center gap-2 rounded-t-lg bg-purple-500 px-3 py-2 text-white">
         <Clock className="h-3.5 w-3.5" />
-        <span className="text-xs font-semibold">Delay</span>
+        <span className="text-xs font-semibold">Retraso</span>
       </div>
       <div className="p-3">
         <p className="text-sm font-medium">{label}</p>

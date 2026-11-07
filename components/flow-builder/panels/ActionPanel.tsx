@@ -66,7 +66,7 @@ export function ActionPanel({ data: rawData, onChange }: ActionPanelProps) {
     default:
       return (
         <p className="text-sm text-muted-foreground">
-          No configuration available for this action type.
+          No hay configuración disponible para este tipo de acción.
         </p>
       );
   }
@@ -80,19 +80,19 @@ function TagConfig({ data, onChange }: ActionSubPanelProps) {
     <div className="space-y-4">
       <div>
         <label className="mb-2 block text-xs font-semibold text-foreground">
-          Tag Name
+          Nombre de la etiqueta
         </label>
         <input
           type="text"
           value={data.tagName || ""}
           onChange={(e) => onChange({ ...data, tagName: e.target.value })}
-          placeholder="Enter tag name..."
+          placeholder="Introduce el nombre de la etiqueta..."
           className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
         />
         <p className="mt-1.5 text-xs text-muted-foreground">
           {isAdd
-            ? "This tag will be added to the contact when they reach this step."
-            : "This tag will be removed from the contact when they reach this step."}
+            ? "Esta etiqueta se añadirá al contacto cuando llegue a este paso."
+            : "Esta etiqueta se quitará del contacto cuando llegue a este paso."}
         </p>
       </div>
     </div>
@@ -105,29 +105,29 @@ function SetFieldConfig({ data, onChange }: ActionSubPanelProps) {
     <div className="space-y-4">
       <div>
         <label className="mb-2 block text-xs font-semibold text-foreground">
-          Field Name (slug)
+          Nombre del campo (slug)
         </label>
         <input
           type="text"
           value={data.fieldSlug || ""}
           onChange={(e) => onChange({ ...data, fieldSlug: e.target.value })}
-          placeholder="e.g. favorite_color"
+          placeholder="p. ej. color_favorito"
           className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
         />
       </div>
       <div>
         <label className="mb-2 block text-xs font-semibold text-foreground">
-          Value
+          Valor
         </label>
         <input
           type="text"
           value={data.value || ""}
           onChange={(e) => onChange({ ...data, value: e.target.value })}
-          placeholder="Value or {{variable}}"
+          placeholder="Valor o {{variable}}"
           className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
         />
         <p className="mt-1.5 text-[11px] text-muted-foreground/60">
-          Use {"{{variable}}"} for dynamic values
+          Usa {"{{variable}}"} para valores dinámicos
         </p>
       </div>
     </div>
@@ -175,7 +175,7 @@ function HttpRequestConfig({ data, onChange }: ActionSubPanelProps) {
       {/* Method + URL */}
       <div>
         <label className="mb-2 block text-xs font-semibold text-foreground">
-          Request
+          Solicitud
         </label>
         <div className="flex gap-2">
           <select
@@ -201,14 +201,14 @@ function HttpRequestConfig({ data, onChange }: ActionSubPanelProps) {
       {/* Headers */}
       <div>
         <div className="mb-2 flex items-center justify-between">
-          <label className="text-xs font-semibold text-foreground">Headers</label>
+          <label className="text-xs font-semibold text-foreground">Encabezados</label>
           <button
             type="button"
             onClick={addHeader}
             className="flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] font-medium text-muted-foreground hover:bg-muted"
           >
             <Plus className="h-3 w-3" />
-            Add
+            Añadir
           </button>
         </div>
         {headerEntries.map(([key, value], i) => (
@@ -217,14 +217,14 @@ function HttpRequestConfig({ data, onChange }: ActionSubPanelProps) {
               type="text"
               value={key}
               onChange={(e) => updateHeaderKey(key, e.target.value)}
-              placeholder="Key"
+              placeholder="Clave"
               className="flex-1 rounded border border-border bg-card px-2 py-1.5 text-xs text-foreground placeholder:text-muted-foreground/60 focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
             />
             <input
               type="text"
               value={value}
               onChange={(e) => updateHeaderValue(key, e.target.value)}
-              placeholder="Value"
+              placeholder="Valor"
               className="flex-1 rounded border border-border bg-card px-2 py-1.5 text-xs text-foreground placeholder:text-muted-foreground/60 focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
             />
             <button
@@ -242,7 +242,7 @@ function HttpRequestConfig({ data, onChange }: ActionSubPanelProps) {
       {(data.method === "POST" || data.method === "PUT") && (
         <div>
           <label className="mb-2 block text-xs font-semibold text-foreground">
-            Request Body (JSON)
+            Cuerpo de la solicitud (JSON)
           </label>
           <textarea
             value={data.body || ""}
@@ -257,17 +257,17 @@ function HttpRequestConfig({ data, onChange }: ActionSubPanelProps) {
       {/* Response Variable */}
       <div>
         <label className="mb-2 block text-xs font-semibold text-foreground">
-          Save response to variable
+          Guardar respuesta en una variable
         </label>
         <input
           type="text"
           value={data.responseVariable || ""}
           onChange={(e) => onChange({ ...data, responseVariable: e.target.value })}
-          placeholder="e.g. api_response"
+          placeholder="p. ej. respuesta_api"
           className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
         />
         <p className="mt-1.5 text-xs text-muted-foreground">
-          Optional. Store the response body in a variable for later use.
+          Opcional. Guarda el cuerpo de la respuesta en una variable para usarla después.
         </p>
       </div>
     </div>
@@ -280,17 +280,17 @@ function GoToFlowConfig({ data, onChange }: ActionSubPanelProps) {
     <div className="space-y-4">
       <div>
         <label className="mb-2 block text-xs font-semibold text-foreground">
-          Target Flow ID
+          ID del flujo de destino
         </label>
         <input
           type="text"
           value={data.flowId || ""}
           onChange={(e) => onChange({ ...data, flowId: e.target.value })}
-          placeholder="Enter flow ID..."
+          placeholder="Introduce el ID del flujo..."
           className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
         />
         <p className="mt-1.5 text-xs text-muted-foreground">
-          The contact will be redirected to this flow.
+          El contacto será redirigido a este flujo.
         </p>
       </div>
 
@@ -305,9 +305,9 @@ function GoToFlowConfig({ data, onChange }: ActionSubPanelProps) {
           <div className="peer h-5 w-9 rounded-full bg-muted after:absolute after:left-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:bg-card after:transition-all peer-checked:bg-muted0 peer-checked:after:translate-x-full peer-focus:ring-2 peer-focus:ring-ring" />
         </label>
         <div>
-          <p className="text-sm font-medium text-foreground">Return after</p>
+          <p className="text-sm font-medium text-foreground">Volver después</p>
           <p className="text-xs text-muted-foreground">
-            Come back to this flow after the target flow completes
+            Volver a este flujo cuando termine el flujo de destino
           </p>
         </div>
       </div>
@@ -323,12 +323,12 @@ function SubscribeConfig({ data, onChange }: ActionSubPanelProps) {
     <div className="space-y-4">
       <div className="rounded-lg border border-border bg-muted p-4">
         <p className="text-sm font-medium text-foreground">
-          {isSubscribe ? "Subscribe Contact" : "Unsubscribe Contact"}
+          {isSubscribe ? "Suscribir contacto" : "Cancelar suscripción del contacto"}
         </p>
         <p className="mt-1 text-xs text-muted-foreground">
           {isSubscribe
-            ? "This will mark the contact as subscribed. They will receive broadcasts and automated messages."
-            : "This will mark the contact as unsubscribed. They will stop receiving broadcasts and most automated messages."}
+            ? "Esto marcará al contacto como suscrito. Recibirá difusiones y mensajes automáticos."
+            : "Esto marcará al contacto como no suscrito. Dejará de recibir difusiones y la mayoría de los mensajes automáticos."}
         </p>
       </div>
 
@@ -343,9 +343,9 @@ function SubscribeConfig({ data, onChange }: ActionSubPanelProps) {
           <div className="peer h-5 w-9 rounded-full bg-muted after:absolute after:left-[2px] after:top-[2px] after:h-4 after:w-4 after:rounded-full after:bg-card after:transition-all peer-checked:bg-muted0 peer-checked:after:translate-x-full peer-focus:ring-2 peer-focus:ring-ring" />
         </label>
         <div>
-          <p className="text-sm font-medium text-foreground">I confirm this action</p>
+          <p className="text-sm font-medium text-foreground">Confirmo esta acción</p>
           <p className="text-xs text-muted-foreground">
-            This action will affect the contact&apos;s subscription status
+            Esta acción afectará el estado de suscripción del contacto
           </p>
         </div>
       </div>
@@ -358,25 +358,25 @@ function HumanTakeoverConfig({ data, onChange }: ActionSubPanelProps) {
   return (
     <div className="space-y-4">
       <div className="rounded-lg border border-border bg-muted p-4">
-        <p className="text-sm font-medium text-foreground">Hand off to a human agent</p>
+        <p className="text-sm font-medium text-foreground">Pasar a un agente humano</p>
         <p className="mt-1 text-xs text-muted-foreground">
-          The flow will pause and the conversation will be marked for human takeover. Automation will stop until an agent resumes it.
+          El flujo se pausará y la conversación se marcará para traspaso a un humano. La automatización se detendrá hasta que un agente la reanude.
         </p>
       </div>
 
       <div>
         <label className="mb-2 block text-xs font-semibold text-foreground">
-          Internal note (optional)
+          Nota interna (opcional)
         </label>
         <textarea
           value={data.message || ""}
           onChange={(e) => onChange({ ...data, message: e.target.value })}
-          placeholder="Add context for the agent..."
+          placeholder="Añade contexto para el agente..."
           rows={3}
           className="w-full resize-none rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
         />
         <p className="mt-1.5 text-xs text-muted-foreground">
-          This message will be visible to agents as an internal note.
+          Este mensaje será visible para los agentes como nota interna.
         </p>
       </div>
     </div>
@@ -429,14 +429,14 @@ function ABSplitConfig({ data, onChange }: ActionSubPanelProps) {
       <div>
         <div className="mb-2 flex items-center justify-between">
           <label className="text-xs font-semibold text-foreground">
-            Traffic Distribution
+            Distribución del tráfico
           </label>
           <button
             type="button"
             onClick={distributeEvenly}
             className="text-[11px] font-medium text-muted-foreground hover:text-foreground"
           >
-            Distribute evenly
+            Distribuir por igual
           </button>
         </div>
         <div className="flex h-3 overflow-hidden rounded-full bg-muted">
@@ -459,7 +459,7 @@ function ABSplitConfig({ data, onChange }: ActionSubPanelProps) {
         </div>
         {totalWeight !== 100 && (
           <p className="mt-1 text-[11px] font-medium text-red-500">
-            Total is {totalWeight}% (should be 100%)
+            El total es {totalWeight}% (debería ser 100%)
           </p>
         )}
       </div>
@@ -522,7 +522,7 @@ function ABSplitConfig({ data, onChange }: ActionSubPanelProps) {
           className="flex w-full items-center justify-center gap-2 rounded-lg border-2 border-dashed border-border py-2 text-xs font-medium text-muted-foreground transition-colors hover:border-muted-foreground hover:text-muted-foreground"
         >
           <Plus className="h-3.5 w-3.5" />
-          Add Path
+          Añadir ruta
         </button>
       )}
     </div>
@@ -534,15 +534,15 @@ function SmartDelayConfig({ data, onChange }: ActionSubPanelProps) {
   return (
     <div className="space-y-4">
       <div className="rounded-lg border border-border bg-muted p-4">
-        <p className="text-sm font-medium text-foreground">Smart Delay</p>
+        <p className="text-sm font-medium text-foreground">Retraso inteligente</p>
         <p className="mt-1 text-xs text-muted-foreground">
-          Pause the flow and wait for a user response. If no response is received within the timeout, continue to the next step.
+          Pausa el flujo y espera la respuesta del usuario. Si no se recibe respuesta dentro del tiempo límite, continúa con el siguiente paso.
         </p>
       </div>
 
       <div>
         <label className="mb-2 block text-xs font-semibold text-foreground">
-          Timeout
+          Tiempo límite
         </label>
         <div className="flex gap-2">
           <input
@@ -559,13 +559,13 @@ function SmartDelayConfig({ data, onChange }: ActionSubPanelProps) {
             onChange={(e) => onChange({ ...data, timeoutUnit: e.target.value })}
             className="flex-1 rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground focus:border-ring focus:outline-none focus:ring-1 focus:ring-ring"
           >
-            <option value="minutes">Minutes</option>
-            <option value="hours">Hours</option>
-            <option value="days">Days</option>
+            <option value="minutes">Minutos</option>
+            <option value="hours">Horas</option>
+            <option value="days">Días</option>
           </select>
         </div>
         <p className="mt-1.5 text-xs text-muted-foreground">
-          If the user does not respond within this time, the flow will continue.
+          Si el usuario no responde en este tiempo, el flujo continuará.
         </p>
       </div>
     </div>

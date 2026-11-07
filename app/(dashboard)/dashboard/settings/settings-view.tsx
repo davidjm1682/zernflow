@@ -87,7 +87,7 @@ export function SettingsView({
       if (!res.ok || data.error) {
         setTestResult({
           success: false,
-          error: data.error || `Connection failed (${res.status})`,
+          error: data.error || `Falló la conexión (${res.status})`,
         });
         return;
       }
@@ -103,7 +103,7 @@ export function SettingsView({
     } catch {
       setTestResult({
         success: false,
-        error: "Could not reach the Zernio API. Please check your network connection.",
+        error: "No se pudo contactar con la API de Zernio. Revisa tu conexión de red.",
       });
     } finally {
       setTesting(false);
@@ -140,7 +140,7 @@ export function SettingsView({
         .single();
 
       if (updateError) {
-        console.error("Settings save error:", updateError);
+        console.error("Error al guardar los ajustes:", updateError);
         throw new Error(updateError.message);
       }
 
@@ -150,8 +150,8 @@ export function SettingsView({
       setTestResult(null);
       setTimeout(() => setSaved(false), 3000);
     } catch (err) {
-      console.error("Failed to save settings:", err);
-      setError(err instanceof Error ? err.message : "Failed to save settings. Please try again.");
+      console.error("No se pudieron guardar los ajustes:", err);
+      setError(err instanceof Error ? err.message : "No se pudieron guardar los ajustes. Inténtalo de nuevo.");
     } finally {
       setSaving(false);
     }
@@ -161,9 +161,9 @@ export function SettingsView({
     <div className="flex h-full flex-col">
       {/* Header */}
       <div className="border-b border-border px-8 py-6">
-        <h1 className="text-2xl font-bold">Settings</h1>
+        <h1 className="text-2xl font-bold">Ajustes</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Manage your workspace settings
+          Administra los ajustes de tu espacio de trabajo
         </p>
       </div>
 
@@ -178,7 +178,7 @@ export function SettingsView({
             </div>
             <div className="mt-4">
               <label className="text-xs font-medium text-muted-foreground">
-                Workspace Name
+                Nombre del espacio de trabajo
               </label>
               <input
                 type="text"
@@ -191,28 +191,28 @@ export function SettingsView({
 
           <hr className="border-border" />
 
-          {/* Zernio API Key */}
+          {/* API key de Zernio */}
           <section>
             <div className="flex items-center gap-2">
               <Key className="h-4 w-4 text-muted-foreground" />
-              <h2 className="text-sm font-semibold">Zernio API Key</h2>
+              <h2 className="text-sm font-semibold">API key de Zernio</h2>
             </div>
             <p className="mt-1 text-xs text-muted-foreground">
-              Your Zernio API key is used to connect with social media platforms.
-              {workspace.hasApiKey && " A key is currently configured."}
+              Tu API key de Zernio se usa para conectar con las plataformas de redes sociales.
+              {workspace.hasApiKey && " Actualmente hay una clave configurada."}
             </p>
             <p className="mt-1.5 text-xs text-muted-foreground">
-              You can get your API key from your{" "}
+              Puedes obtener tu API key en tu{" "}
               <a
                 href="https://zernio.com/dashboard/settings/api"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-0.5 text-primary underline underline-offset-2 hover:opacity-80"
               >
-                Zernio dashboard
+                panel de Zernio
                 <ExternalLink className="h-3 w-3" />
               </a>
-              . Sign up at{" "}
+              . Regístrate en{" "}
               <a
                 href="https://zernio.com"
                 target="_blank"
@@ -221,7 +221,7 @@ export function SettingsView({
               >
                 zernio.com
               </a>{" "}
-              if you don&apos;t have an account yet.
+              si aún no tienes una cuenta.
             </p>
 
             <div className="mt-4 relative">
@@ -235,8 +235,8 @@ export function SettingsView({
                 }}
                 placeholder={
                   workspace.hasApiKey
-                    ? "Enter a new key to replace the current one"
-                    : "Enter your Zernio API key"
+                    ? "Introduce una nueva clave para reemplazar la actual"
+                    : "Introduce tu API key de Zernio"
                 }
                 className="w-full rounded-lg border border-input bg-background px-3 py-2 pr-10 text-sm font-mono placeholder:text-muted-foreground placeholder:font-sans focus:outline-none focus:ring-2 focus:ring-ring"
               />
@@ -253,7 +253,7 @@ export function SettingsView({
               </button>
             </div>
 
-            {/* Test Connection button */}
+            {/* Probar conexión button */}
             <div className="mt-3 flex items-center gap-3">
               <button
                 onClick={handleTestConnection}
@@ -265,7 +265,7 @@ export function SettingsView({
                 ) : (
                   <Plug className="h-3.5 w-3.5" />
                 )}
-                {testing ? "Testing..." : "Test Connection"}
+                {testing ? "Testing..." : "Probar conexión"}
               </button>
 
               {testResult && testResult.success && (
@@ -287,7 +287,7 @@ export function SettingsView({
             {workspace.hasApiKey && !testResult && (
               <p className="mt-1.5 flex items-center gap-1 text-xs text-green-600">
                 <Check className="h-3 w-3" />
-                API key configured
+                API key configurada
               </p>
             )}
           </section>
@@ -301,7 +301,7 @@ export function SettingsView({
               <h2 className="text-sm font-semibold">AI Gateway</h2>
             </div>
             <p className="mt-1 text-xs text-muted-foreground">
-              Required for the AI Response flow node. Uses{" "}
+              Necesaria para el nodo de flujo Respuesta con IA. Usa{" "}
               <a
                 href="https://vercel.com/ai-gateway"
                 target="_blank"
@@ -311,8 +311,8 @@ export function SettingsView({
                 Vercel AI Gateway
                 <ExternalLink className="h-3 w-3" />
               </a>{" "}
-              to access OpenAI, Anthropic, and Google models with a single key.
-              {workspace.hasAiKey && " A key is currently configured."}
+              para acceder a modelos de OpenAI, Anthropic y Google con una sola clave.
+              {workspace.hasAiKey && " Actualmente hay una clave configurada."}
             </p>
 
             <div className="mt-4 relative">
@@ -322,8 +322,8 @@ export function SettingsView({
                 onChange={(e) => setAiKey(e.target.value)}
                 placeholder={
                   workspace.hasAiKey
-                    ? "Enter a new key to replace the current one"
-                    : "Enter your AI Gateway API key"
+                    ? "Introduce una nueva clave para reemplazar la actual"
+                    : "Introduce tu API key de AI Gateway"
                 }
                 className="w-full rounded-lg border border-input bg-background px-3 py-2 pr-10 text-sm font-mono placeholder:text-muted-foreground placeholder:font-sans focus:outline-none focus:ring-2 focus:ring-ring"
               />
@@ -343,21 +343,21 @@ export function SettingsView({
             {workspace.hasAiKey && (
               <p className="mt-1.5 flex items-center gap-1 text-xs text-green-600">
                 <Check className="h-3 w-3" />
-                AI Gateway key configured
+                Clave de AI Gateway configurada
               </p>
             )}
           </section>
 
           <hr className="border-border" />
 
-          {/* Global Keywords */}
+          {/* Palabras clave globales */}
           <section>
             <div className="flex items-center gap-2">
               <Hash className="h-4 w-4 text-muted-foreground" />
-              <h2 className="text-sm font-semibold">Global Keywords</h2>
+              <h2 className="text-sm font-semibold">Palabras clave globales</h2>
             </div>
             <p className="mt-1 text-xs text-muted-foreground">
-              Keywords that trigger flows across all channels. Flow-specific triggers take priority over global keywords.
+              Palabras clave que activan flujos en todos los canales. Los disparadores propios de cada flujo tienen prioridad sobre las palabras clave globales.
             </p>
 
             {/* Keyword input */}
@@ -372,7 +372,7 @@ export function SettingsView({
                     addKeyword();
                   }
                 }}
-                placeholder="Add a keyword..."
+                placeholder="Añade una palabra clave..."
                 className="flex-1 rounded-lg border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
               />
               <button
@@ -404,7 +404,7 @@ export function SettingsView({
               </div>
             ) : (
               <p className="mt-3 text-xs text-muted-foreground/70">
-                No global keywords configured
+                No hay palabras clave globales configuradas
               </p>
             )}
           </section>
@@ -415,17 +415,17 @@ export function SettingsView({
           <section>
             <div className="flex items-center gap-2">
               <Users className="h-4 w-4 text-muted-foreground" />
-              <h2 className="text-sm font-semibold">Team</h2>
+              <h2 className="text-sm font-semibold">Equipo</h2>
             </div>
             <p className="mt-1 text-xs text-muted-foreground">
-              Manage workspace members and invitations.
+              Administra los miembros e invitaciones del espacio de trabajo.
             </p>
             <Link
               href="/dashboard/settings/team"
               className="mt-3 inline-flex items-center gap-1.5 rounded-lg border border-border bg-background px-4 py-2 text-sm font-medium text-foreground hover:bg-muted"
             >
               <Users className="h-4 w-4" />
-              Manage Team
+              Administrar equipo
               <ChevronRight className="h-3.5 w-3.5 text-muted-foreground" />
             </Link>
           </section>
@@ -442,12 +442,12 @@ export function SettingsView({
               {saving ? (
                 <>
                   <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary-foreground border-t-transparent" />
-                  Saving...
+                  Guardando...
                 </>
               ) : (
                 <>
                   <Save className="h-4 w-4" />
-                  Save Changes
+                  Guardar cambios
                 </>
               )}
             </button>
@@ -455,7 +455,7 @@ export function SettingsView({
             {saved && (
               <span className="flex items-center gap-1 text-sm text-green-600">
                 <Check className="h-4 w-4" />
-                Settings saved
+                Ajustes guardados
               </span>
             )}
 
