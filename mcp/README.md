@@ -52,6 +52,25 @@ claude mcp add zernflow \
   -- node <ruta>/mcp/dist/server.js
 ```
 
+## MCP remoto (HTTP) en el servidor
+
+La app desplegada también expone las mismas 6 herramientas en `POST /api/mcp` (Streamable HTTP, sin estado), para conectarlas desde otro equipo o desde claude.ai. Sigue siendo solo borradores.
+
+Variables a definir en Coolify (la URL y la clave de Supabase ya existen en la app):
+
+| Variable | Descripción |
+|---|---|
+| `MCP_API_TOKEN` | Secreto compartido, **mínimo 32 caracteres**. Genera uno con `openssl rand -hex 32`. |
+| `ZERNFLOW_MCP_WORKSPACE_ID` | UUID del único workspace al que puede acceder el endpoint. |
+
+Si falta cualquiera de las dos, o el token es corto, el endpoint responde `503` (falla cerrado). Sin token o con token incorrecto responde `401`.
+
+Registro en Claude Code (usa HTTPS en producción, porque el token viaja en la cabecera):
+
+```bash
+claude mcp add --transport http zernflow-remoto https://TU-DOMINIO/api/mcp --header "Authorization: Bearer TU_TOKEN"
+```
+
 ## Formato de nodos
 
 Se valida con zod y coincide con lo que guarda el constructor visual. Tipos de nodo permitidos: `trigger`, `sendMessage`, `condition`, `delay`, `action`, `aiResponse`. Cualquier otro tipo se rechaza.

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { MATCH_TYPES, type FlowEdge, type FlowNode } from "./schemas.js";
+import { MATCH_TYPES, type FlowEdge, type FlowNode } from "./schemas";
 
 export const commentToDmInput = z.object({
   name: z.string().trim().min(1),

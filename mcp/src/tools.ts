@@ -1,7 +1,7 @@
 import { z } from "zod";
-import { buildCommentToDmFlow, commentToDmInput } from "./flow-builders.js";
-import { validateGraph } from "./schemas.js";
-import type { FlowStore } from "./store.js";
+import { buildCommentToDmFlow, commentToDmInput } from "./flow-builders";
+import { validateGraph } from "./schemas";
+import type { FlowStore } from "./store";
 
 /**
  * Tool handlers. Pure functions over a FlowStore so they can be tested without
