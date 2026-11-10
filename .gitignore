@@ -39,3 +39,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 supabase/.temp
+
+# MCP server
+/mcp/dist
+*.key
+.env.mcp
+.env.mcp.*
