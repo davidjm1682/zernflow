@@ -19,6 +19,7 @@ import type {
 } from "./types";
 import { executeAiResponse } from "./nodes/ai-response";
 import { adaptMessage } from "./platform-adapter";
+import { resolveNodeType } from "./node-type";
 import { createZernioClient } from "@/lib/zernio-client";
 
 export async function executeFlow(
@@ -287,7 +288,8 @@ async function traverseNodes(
 
   // Persist variables written by output-producing nodes so they survive
   // pauses (resumeSession reloads them from the session row).
-  if (node.type === "aiResponse" || node.type === "httpRequest") {
+  const resolvedType = resolveNodeType(node);
+  if (resolvedType === "aiResponse" || resolvedType === "httpRequest") {
     await supabase
       .from("flow_sessions")
       .update({ variables: (context.variables ?? {}) as Json })
@@ -325,13 +327,16 @@ async function traverseNodes(
   await traverseNodes(supabase, sessionId, nextNode, nodes, edges, context, depth + 1);
 }
 
-async function executeNode(
+export async function executeNode(
   supabase: SupabaseClient<Database>,
   node: FlowNode,
   context: FlowExecutionContext,
   sessionId: string
 ): Promise<string | void> {
-  switch (node.type) {
+  // The builder stores action nodes as type "action" + data.actionType; resolve
+  // to the concrete kind so those nodes run instead of being skipped.
+  const nodeType = resolveNodeType(node);
+  switch (nodeType) {
     case "sendMessage":
       return executeSendMessage(supabase, node.data as SendMessageNodeData, context);
     case "condition":
@@ -340,7 +345,13 @@ async function executeNode(
       return executeDelay(supabase, node.data as DelayNodeData, sessionId, node.id, context);
     case "addTag":
     case "removeTag":
-      return executeTag(supabase, node.data as TagNodeData, context);
+      // Neither the builder panel nor the templates write data.action, so the
+      // add/remove direction comes from the node kind.
+      return executeTag(
+        supabase,
+        { ...(node.data as TagNodeData), action: nodeType === "addTag" ? "add" : "remove" },
+        context
+      );
     case "setCustomField":
       return executeSetField(supabase, node.data as SetFieldNodeData, context);
     case "httpRequest":
@@ -351,7 +362,7 @@ async function executeNode(
       return executeHumanTakeover(supabase, context, sessionId);
     case "subscribe":
     case "unsubscribe":
-      return executeSubscription(supabase, node.type, context);
+      return executeSubscription(supabase, nodeType, context);
     case "commentReply":
       return executeCommentReply(supabase, node.data as CommentReplyNodeData, context);
     case "privateReply":
