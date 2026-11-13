@@ -232,6 +232,11 @@ function MessageEditor({
     onChange({ ...message, buttons: [...buttons, { title: "", type: "postback", payload: "" }] });
   }, [message, onChange]);
 
+  const addLinkButton = useCallback(() => {
+    const buttons = message.buttons || [];
+    onChange({ ...message, buttons: [...buttons, { title: "", type: "url", url: "" }] });
+  }, [message, onChange]);
+
   const updateButton = useCallback(
     (i: number, updated: Button) => {
       const buttons = [...(message.buttons || [])];
@@ -319,8 +324,8 @@ function MessageEditor({
                 value={message.text || ""}
                 onChange={(e) => onChange({ ...message, text: e.target.value })}
                 placeholder="Escribe tu mensaje... Inserta variables abajo"
-                rows={3}
-                className="w-full resize-none rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                rows={8}
+                className="w-full resize-y rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
               />
               {availableVariables && availableVariables.length > 0 ? (
                 <VariablePicker
@@ -430,14 +435,24 @@ function MessageEditor({
                     Botones
                   </label>
                 </div>
-                <button
-                  type="button"
-                  onClick={addButton}
-                  className="flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] font-medium text-blue-500 hover:bg-blue-50"
-                >
-                  <Plus className="h-3 w-3" />
-                  Añadir
-                </button>
+                <div className="flex items-center gap-1">
+                  <button
+                    type="button"
+                    onClick={addLinkButton}
+                    className="flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] font-medium text-blue-500 hover:bg-blue-50"
+                  >
+                    <Plus className="h-3 w-3" />
+                    Añadir enlace
+                  </button>
+                  <button
+                    type="button"
+                    onClick={addButton}
+                    className="flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] font-medium text-blue-500 hover:bg-blue-50"
+                  >
+                    <Plus className="h-3 w-3" />
+                    Añadir
+                  </button>
+                </div>
               </div>
               {(message.buttons || []).map((btn, i) => (
                 <div
@@ -590,6 +605,11 @@ function CarouselCardEditor({
 }) {
   const buttons = element.buttons || [];
 
+  const addLinkButton = useCallback(() => {
+    if (buttons.length >= 3) return;
+    onChange({ ...element, buttons: [...buttons, { title: "", type: "url", url: "" }] });
+  }, [element, buttons, onChange]);
+
   const addButton = useCallback(() => {
     if (buttons.length >= 3) return;
     onChange({
@@ -692,14 +712,24 @@ function CarouselCardEditor({
               </label>
             </div>
             {buttons.length < 3 && (
-              <button
-                type="button"
-                onClick={addButton}
-                className="flex items-center gap-0.5 rounded px-1 py-0.5 text-[10px] font-medium text-blue-500 hover:bg-blue-50"
-              >
-                <Plus className="h-2.5 w-2.5" />
-                Añadir
-              </button>
+              <div className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={addLinkButton}
+                  className="flex items-center gap-0.5 rounded px-1 py-0.5 text-[10px] font-medium text-blue-500 hover:bg-blue-50"
+                >
+                  <Plus className="h-2.5 w-2.5" />
+                  Añadir enlace
+                </button>
+                <button
+                  type="button"
+                  onClick={addButton}
+                  className="flex items-center gap-0.5 rounded px-1 py-0.5 text-[10px] font-medium text-blue-500 hover:bg-blue-50"
+                >
+                  <Plus className="h-2.5 w-2.5" />
+                  Añadir
+                </button>
+              </div>
             )}
           </div>
           {buttons.map((btn, i) => (
