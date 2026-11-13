@@ -4,6 +4,7 @@ import { useCallback, useState } from "react";
 import { Plus, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { TriggerType } from "@/lib/types/database";
+import { PostPicker } from "./PostPicker";
 
 interface Keyword {
   value: string;
@@ -15,6 +16,7 @@ interface TriggerPanelData {
   keywords?: Keyword[];
   payload?: string;
   alsoMatchInDms?: boolean;
+  postIds?: string[];
   [key: string]: unknown;
 }
 
@@ -197,6 +199,13 @@ export function TriggerPanel({ data: rawData, onChange }: TriggerPanelProps) {
             <p className="mt-2 text-xs text-muted-foreground">
               Añade palabras clave que activarán este flujo. Pulsa Enter o haz clic en + para añadir.
             </p>
+          )}
+
+          {triggerType === "comment_keyword" && (
+            <PostPicker
+              value={data.postIds ?? []}
+              onChange={(postIds) => onChange({ ...data, postIds })}
+            />
           )}
 
           {/* Comment keywords only: publish also writes a `keyword` trigger row so
