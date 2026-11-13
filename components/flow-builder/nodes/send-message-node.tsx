@@ -1,7 +1,7 @@
 "use client";
 
 import { Handle, Position, type NodeProps } from "@xyflow/react";
-import { MessageSquare } from "lucide-react";
+import { Link as LinkIcon, MessageSquare } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export interface SendMessageNodeProps {
@@ -54,15 +54,30 @@ export function SendMessageNode({ data, selected }: NodeProps) {
         {!firstMessage && (
           <p className="mt-1 text-xs text-muted-foreground italic">Sin mensaje configurado</p>
         )}
+        {nodeData.messages?.some((m) => m.buttons?.length) && (
+          <div className="mt-2 space-y-1">
+            {nodeData.messages.flatMap((m, mi) =>
+              (m.buttons ?? []).map((b, bi) => (
+                <div
+                  key={`${mi}-${bi}`}
+                  className="flex items-center justify-center gap-1 rounded-md border border-blue-300 bg-blue-50 px-2 py-1 text-[11px] font-medium text-blue-700"
+                >
+                  {b.type === "url" && <LinkIcon className="h-3 w-3 shrink-0" />}
+                  <span className="truncate">{b.title || "(sin título)"}</span>
+                </div>
+              ))
+            )}
+          </div>
+        )}
         <div className="mt-2 flex gap-2">
           {messageCount > 1 && (
             <span className="rounded bg-blue-100 px-1.5 py-0.5 text-[10px] font-medium text-blue-700">
-              {messageCount} messages
+              {messageCount} mensajes
             </span>
           )}
           {buttonCount > 0 && (
             <span className="rounded bg-blue-100 px-1.5 py-0.5 text-[10px] font-medium text-blue-700">
-              {buttonCount} {buttonCount === 1 ? "button" : "buttons"}
+              {buttonCount} {buttonCount === 1 ? "botón" : "botones"}
             </span>
           )}
         </div>
