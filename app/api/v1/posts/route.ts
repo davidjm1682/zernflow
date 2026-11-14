@@ -143,7 +143,7 @@ export async function GET(request: Request) {
       // take live-only posts newer than the inbox's newest one: those are the
       // freshly published posts the inbox hasn't picked up yet.
       const newestInbox = inbox.reduce(
-        (max, p) => ((p.createdTime ?? "") > max ? (p.createdTime ?? "") : max),
+        (max: string, p: InboxPost) => ((p.createdTime ?? "") > max ? (p.createdTime ?? "") : max),
         "",
       );
       // Live data wins for freshness; keep inbox values where live has none.
