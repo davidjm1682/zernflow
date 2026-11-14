@@ -87,6 +87,26 @@ export function adaptMessage(
   }
 }
 
+/**
+ * Meta rejects the whole message when a button has an empty title or no target,
+ * so one half-filled button in the builder would silently kill the DM. Give link
+ * buttons a default title and drop buttons that cannot work.
+ */
+function sanitizeButtons<T extends { type?: string; title?: string; url?: string; payload?: string }>(
+  buttons: T[] | undefined,
+): T[] | undefined {
+  if (!buttons) return buttons;
+  return buttons.flatMap((btn) => {
+    const title = (btn.title ?? "").trim();
+    if (btn.type === "url") {
+      if (!btn.url?.trim()) return [];
+      return [{ ...btn, title: title || "Abrir enlace" }];
+    }
+    if (!title) return [];
+    return [{ ...btn, title }];
+  });
+}
+
 function adaptForMeta(content: MessageContent): AdaptedMessage {
   const result: AdaptedMessage = {
     text: content.text || "",
@@ -101,23 +121,27 @@ function adaptForMeta(content: MessageContent): AdaptedMessage {
         title: el.title,
         subtitle: el.subtitle,
         imageUrl: el.imageUrl,
-        buttons: el.buttons?.map((btn) => ({
-          type: btn.type,
-          title: btn.title,
-          url: btn.url,
-          payload: btn.payload,
-        })),
+        buttons: sanitizeButtons(
+          el.buttons?.map((btn) => ({
+            type: btn.type,
+            title: btn.title,
+            url: btn.url,
+            payload: btn.payload,
+          })),
+        ),
       })),
     };
     return result;
   }
 
   // Pass through buttons and quick replies for the SDK
-  if (content.buttons?.length) {
-    result.buttons = content.buttons;
+  const buttons = sanitizeButtons(content.buttons);
+  if (buttons?.length) {
+    result.buttons = buttons;
   }
-  if (content.quickReplies?.length) {
-    result.quickReplies = content.quickReplies;
+  const quickReplies = content.quickReplies?.filter((qr) => qr.title?.trim());
+  if (quickReplies?.length) {
+    result.quickReplies = quickReplies;
   }
 
   return result;
