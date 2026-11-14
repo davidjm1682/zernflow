@@ -1,8 +1,11 @@
 "use client";
 
-import { useCallback, useRef } from "react";
-import { Plus, X, GripVertical, Image, Type, MousePointer, MessageCircle, LayoutGrid } from "lucide-react";
+import { useCallback, useRef, useState } from "react";
+import { Plus, X, GripVertical, Image, Type, MousePointer, Braces, Link as LinkIcon, Settings, LayoutGrid } from "lucide-react";
 import { cn } from "@/lib/utils";
+
+const inp =
+  "w-full rounded-md border border-border bg-card px-2 py-1.5 text-xs text-foreground placeholder:text-muted-foreground/60 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500";
 
 interface QuickReply {
   title: string;
@@ -133,8 +136,8 @@ export function SendMessagePanel({ data: rawData, onChange, availableVariables }
       )}
 
       {/* Platform hints */}
-      <div className="rounded-lg border border-border bg-muted p-3">
-        <p className="text-xs font-medium text-muted-foreground">Notas por plataforma</p>
+      <details className="rounded-lg border border-border bg-muted p-3">
+        <summary className="cursor-pointer text-xs font-medium text-muted-foreground">Notas por plataforma</summary>
         <ul className="mt-1.5 space-y-1 text-[11px] text-muted-foreground">
           <li>Facebook/Instagram/WhatsApp: máximo 3 botones por mensaje</li>
           <li>Telegram: los botones aparecen como teclados en línea</li>
@@ -145,7 +148,7 @@ export function SendMessagePanel({ data: rawData, onChange, availableVariables }
             último mensaje del contacto
           </li>
         </ul>
-      </div>
+      </details>
     </div>
   );
 }
@@ -167,6 +170,11 @@ function MessageEditor({
 }) {
   const isCarouselMode = !!message.carousel;
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const [varsOpen, setVarsOpen] = useState(false);
+  const [addMenuOpen, setAddMenuOpen] = useState(false);
+  const [openButton, setOpenButton] = useState<number | null>(null);
+  const [openReply, setOpenReply] = useState<number | null>(null);
+  const [mediaOpen, setMediaOpen] = useState(false);
 
   const insertVariable = useCallback(
     (variable: string) => {
@@ -227,16 +235,6 @@ function MessageEditor({
   );
 
   // Buttons
-  const addButton = useCallback(() => {
-    const buttons = message.buttons || [];
-    onChange({ ...message, buttons: [...buttons, { title: "", type: "postback", payload: "" }] });
-  }, [message, onChange]);
-
-  const addLinkButton = useCallback(() => {
-    const buttons = message.buttons || [];
-    onChange({ ...message, buttons: [...buttons, { title: "", type: "url", url: "" }] });
-  }, [message, onChange]);
-
   const updateButton = useCallback(
     (i: number, updated: Button) => {
       const buttons = [...(message.buttons || [])];
@@ -254,15 +252,34 @@ function MessageEditor({
     [message, onChange]
   );
 
+  const buttons = message.buttons || [];
+  const replies = message.quickReplies || [];
+  const mediaValue = message.mediaUrl ?? message.imageUrl ?? "";
+  const hasMedia = mediaOpen || !!mediaValue;
+  const textLength = (message.text || "").length;
+
+  const addTypedButton = (type: "url" | "postback") => {
+    onChange({
+      ...message,
+      buttons: [
+        ...buttons,
+        type === "url" ? { title: "", type: "url", url: "" } : { title: "", type: "postback", payload: "" },
+      ],
+    });
+    setOpenButton(buttons.length);
+    setAddMenuOpen(false);
+  };
+
+  const blockCard =
+    "flex w-full items-start gap-3 rounded-xl border-2 border-dashed border-border p-3 text-left transition-colors hover:border-blue-400";
+
   return (
-    <div className="rounded-lg border border-border bg-card">
+    <div className="rounded-xl border border-border bg-card">
       {/* Message header */}
-      <div className="flex items-center justify-between border-b border-border px-3 py-2">
+      <div className="flex items-center justify-between px-3 pt-2">
         <div className="flex items-center gap-2">
           <GripVertical className="h-3.5 w-3.5 text-muted-foreground/60" />
-          <span className="text-xs font-semibold text-muted-foreground">
-            Mensaje {index + 1}
-          </span>
+          <span className="text-xs font-semibold text-muted-foreground">Mensaje {index + 1}</span>
         </div>
         {canRemove && (
           <button
@@ -275,243 +292,293 @@ function MessageEditor({
         )}
       </div>
 
-      {/* Mode toggle */}
-      <div className="flex border-b border-border">
-        <button
-          type="button"
-          onClick={() => isCarouselMode && toggleMode()}
-          className={cn(
-            "flex flex-1 items-center justify-center gap-1.5 py-2 text-xs font-medium transition-colors",
-            !isCarouselMode
-              ? "border-b-2 border-blue-500 text-blue-600"
-              : "text-muted-foreground/60 hover:text-muted-foreground"
-          )}
-        >
-          <Type className="h-3 w-3" />
-          Texto
-        </button>
-        <button
-          type="button"
-          onClick={() => !isCarouselMode && toggleMode()}
-          className={cn(
-            "flex flex-1 items-center justify-center gap-1.5 py-2 text-xs font-medium transition-colors",
-            isCarouselMode
-              ? "border-b-2 border-blue-500 text-blue-600"
-              : "text-muted-foreground/60 hover:text-muted-foreground"
-          )}
-        >
-          <LayoutGrid className="h-3 w-3" />
-          Carrusel
-        </button>
-      </div>
-
-      <div className="space-y-4 p-3">
+      <div className="space-y-3 p-3">
         {isCarouselMode ? (
-          <CarouselEditor
-            carousel={message.carousel!}
-            onChange={(carousel) => onChange({ ...message, carousel })}
-          />
+          <>
+            <button
+              type="button"
+              onClick={toggleMode}
+              className="text-xs font-medium text-blue-500 hover:underline"
+            >
+              ← Volver a mensaje de texto
+            </button>
+            <CarouselEditor
+              carousel={message.carousel!}
+              onChange={(carousel) => onChange({ ...message, carousel })}
+            />
+          </>
         ) : (
           <>
-            {/* Text */}
-            <div>
-              <div className="mb-1.5 flex items-center gap-1.5">
-                <Type className="h-3 w-3 text-muted-foreground/60" />
-                <label className="text-xs font-medium text-muted-foreground">Text</label>
-              </div>
-              <textarea
-                ref={textareaRef}
-                value={message.text || ""}
-                onChange={(e) => onChange({ ...message, text: e.target.value })}
-                placeholder="Escribe tu mensaje... Inserta variables abajo"
-                rows={8}
-                className="w-full resize-y rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-              />
-              {availableVariables && availableVariables.length > 0 ? (
-                <VariablePicker
-                  variables={availableVariables}
-                  onInsert={insertVariable}
-                />
-              ) : (
-                <p className="text-[11px] text-muted-foreground/60">
-                  Usa {"{{variable}}"} para contenido dinámico
-                </p>
-              )}
-            </div>
-
-            {/* Media (image / video / audio) */}
-            <div>
-              <div className="mb-1.5 flex items-center gap-1.5">
-                <Image className="h-3 w-3 text-muted-foreground/60" />
-                <label className="text-xs font-medium text-muted-foreground">URL del archivo</label>
-              </div>
-              <div className="flex gap-2">
-                <select
-                  value={message.mediaType || "image"}
-                  onChange={(e) =>
-                    onChange({
-                      ...message,
-                      mediaType: e.target.value as "image" | "video" | "audio",
-                    })
-                  }
-                  className="rounded-lg border border-border bg-card px-2 py-2 text-sm text-foreground focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                >
-                  <option value="image">Imagen</option>
-                  <option value="video">Video</option>
-                  <option value="audio">Audio</option>
-                </select>
-                <input
-                  type="url"
-                  value={message.mediaUrl ?? message.imageUrl ?? ""}
-                  onChange={(e) =>
-                    onChange({
-                      ...message,
-                      mediaUrl: e.target.value || undefined,
-                      mediaType: message.mediaType || "image",
-                      // Clear the legacy image-only field so the two don't diverge.
-                      imageUrl: undefined,
-                    })
-                  }
-                  placeholder="https://example.com/file.mp4"
-                  className="w-full rounded-lg border border-border bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/60 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                />
-              </div>
-              <p className="mt-1 text-[11px] text-muted-foreground/60">
-                Envía una imagen, video o audio con este mensaje.
-              </p>
-            </div>
-
-            {/* Quick Replies */}
-            <div>
-              <div className="mb-1.5 flex items-center justify-between">
-                <div className="flex items-center gap-1.5">
-                  <MessageCircle className="h-3 w-3 text-muted-foreground/60" />
-                  <label className="text-xs font-medium text-muted-foreground">
-                    Respuestas rápidas
-                  </label>
-                </div>
-                <button
-                  type="button"
-                  onClick={addQuickReply}
-                  className="flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] font-medium text-blue-500 hover:bg-blue-50"
-                >
-                  <Plus className="h-3 w-3" />
-                  Añadir
-                </button>
-              </div>
-              {(message.quickReplies || []).map((qr, i) => (
-                <div key={i} className="mb-2 flex items-center gap-2">
-                  <input
-                    type="text"
-                    value={qr.title}
-                    onChange={(e) => updateQuickReply(i, { ...qr, title: e.target.value })}
-                    placeholder="Etiqueta"
-                    className="flex-1 rounded border border-border bg-card px-2 py-1.5 text-xs text-foreground placeholder:text-muted-foreground/60 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  />
-                  <input
-                    type="text"
-                    value={qr.payload}
-                    onChange={(e) => updateQuickReply(i, { ...qr, payload: e.target.value })}
-                    placeholder="Payload"
-                    className="flex-1 rounded border border-border bg-card px-2 py-1.5 text-xs text-foreground placeholder:text-muted-foreground/60 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                  />
+            {/* Media attached to this message */}
+            {hasMedia && (
+              <div className="rounded-xl border border-border bg-muted/40 p-2.5">
+                <div className="mb-1.5 flex items-center justify-between">
+                  <span className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+                    <Image className="h-3 w-3" /> Archivo adjunto
+                  </span>
                   <button
                     type="button"
-                    onClick={() => removeQuickReply(i)}
-                    className="rounded p-1 text-muted-foreground/60 hover:bg-muted hover:text-muted-foreground"
+                    onClick={() => {
+                      setMediaOpen(false);
+                      onChange({ ...message, mediaUrl: undefined, imageUrl: undefined });
+                    }}
+                    className="rounded p-1 text-muted-foreground/60 hover:bg-muted"
                   >
                     <X className="h-3 w-3" />
                   </button>
                 </div>
-              ))}
-            </div>
-
-            {/* Buttons */}
-            <div>
-              <div className="mb-1.5 flex items-center justify-between">
-                <div className="flex items-center gap-1.5">
-                  <MousePointer className="h-3 w-3 text-muted-foreground/60" />
-                  <label className="text-xs font-medium text-muted-foreground">
-                    Botones
-                  </label>
-                </div>
-                <div className="flex items-center gap-1">
-                  <button
-                    type="button"
-                    onClick={addLinkButton}
-                    className="flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] font-medium text-blue-500 hover:bg-blue-50"
+                <div className="flex gap-2">
+                  <select
+                    value={message.mediaType || "image"}
+                    onChange={(e) =>
+                      onChange({ ...message, mediaType: e.target.value as "image" | "video" | "audio" })
+                    }
+                    className="rounded-md border border-border bg-card px-2 py-1.5 text-xs text-foreground focus:border-blue-500 focus:outline-none"
                   >
-                    <Plus className="h-3 w-3" />
-                    Añadir enlace
-                  </button>
-                  <button
-                    type="button"
-                    onClick={addButton}
-                    className="flex items-center gap-1 rounded px-1.5 py-0.5 text-[11px] font-medium text-blue-500 hover:bg-blue-50"
-                  >
-                    <Plus className="h-3 w-3" />
-                    Añadir
-                  </button>
+                    <option value="image">Imagen</option>
+                    <option value="video">Video</option>
+                    <option value="audio">Audio</option>
+                  </select>
+                  <input
+                    type="url"
+                    value={mediaValue}
+                    onChange={(e) =>
+                      onChange({
+                        ...message,
+                        mediaUrl: e.target.value || undefined,
+                        mediaType: message.mediaType || "image",
+                        imageUrl: undefined,
+                      })
+                    }
+                    placeholder="https://example.com/file.jpg"
+                    className={inp}
+                  />
                 </div>
               </div>
-              {(message.buttons || []).map((btn, i) => (
-                <div
-                  key={i}
-                  className="mb-2 rounded-lg border border-border bg-muted p-2.5"
-                >
-                  <div className="mb-2 flex items-center gap-2">
+            )}
+
+            {/* Chat bubble: text + buttons */}
+            <div className="overflow-hidden rounded-2xl bg-muted">
+              <div className="px-3 pt-3">
+                <textarea
+                  ref={textareaRef}
+                  value={message.text || ""}
+                  onChange={(e) => onChange({ ...message, text: e.target.value })}
+                  placeholder="Escribe tu mensaje…"
+                  rows={6}
+                  className="w-full resize-y bg-transparent text-sm leading-relaxed text-foreground placeholder:text-muted-foreground/60 focus:outline-none"
+                />
+                <div className="flex items-center justify-between pb-2 text-[11px] text-muted-foreground">
+                  <button
+                    type="button"
+                    onClick={() => setVarsOpen((v) => !v)}
+                    className={cn(
+                      "flex items-center gap-1 rounded px-1.5 py-0.5 font-medium hover:bg-card",
+                      varsOpen && "bg-card text-blue-500"
+                    )}
+                    title="Insertar variable"
+                  >
+                    <Braces className="h-3.5 w-3.5" /> Variable
+                  </button>
+                  <span>{textLength}/1000</span>
+                </div>
+                {varsOpen && (
+                  <div className="pb-2">
+                    {availableVariables && availableVariables.length > 0 ? (
+                      <VariablePicker variables={availableVariables} onInsert={insertVariable} />
+                    ) : (
+                      <p className="text-[11px] text-muted-foreground/60">
+                        Usa {"{{variable}}"} para contenido dinámico
+                      </p>
+                    )}
+                  </div>
+                )}
+              </div>
+
+              {/* Buttons inside the bubble */}
+              <div className="space-y-2 px-3 pb-3">
+                {buttons.map((btn, i) => (
+                  <div key={i} className="rounded-xl border border-border bg-card">
+                    <div className="flex items-center gap-1.5 px-2 py-1.5">
+                      {btn.type === "url" && <LinkIcon className="h-3.5 w-3.5 shrink-0 text-blue-500" />}
+                      <input
+                        type="text"
+                        value={btn.title}
+                        onChange={(e) => updateButton(i, { ...btn, title: e.target.value })}
+                        placeholder="Título del botón"
+                        className="min-w-0 flex-1 bg-transparent text-center text-sm font-medium text-blue-600 placeholder:text-muted-foreground/50 focus:outline-none"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setOpenButton(openButton === i ? null : i)}
+                        className={cn(
+                          "rounded p-1 text-muted-foreground hover:bg-muted",
+                          openButton === i && "text-blue-500"
+                        )}
+                        title="Configurar"
+                      >
+                        <Settings className="h-3.5 w-3.5" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          removeButton(i);
+                          setOpenButton(null);
+                        }}
+                        className="rounded p-1 text-muted-foreground/60 hover:bg-muted hover:text-muted-foreground"
+                      >
+                        <X className="h-3.5 w-3.5" />
+                      </button>
+                    </div>
+                    {openButton === i && (
+                      <div className="space-y-2 border-t border-border bg-muted/40 p-2">
+                        <select
+                          value={btn.type}
+                          onChange={(e) => {
+                            const type = e.target.value as "postback" | "url";
+                            updateButton(i, {
+                              ...btn,
+                              type,
+                              payload: type === "postback" ? btn.payload || "" : undefined,
+                              url: type === "url" ? btn.url || "" : undefined,
+                            });
+                          }}
+                          className={inp}
+                        >
+                          <option value="url">Abrir sitio web</option>
+                          <option value="postback">Enviar al siguiente paso (postback)</option>
+                        </select>
+                        {btn.type === "postback" ? (
+                          <input
+                            type="text"
+                            value={btn.payload || ""}
+                            onChange={(e) => updateButton(i, { ...btn, payload: e.target.value })}
+                            placeholder="Valor del payload"
+                            className={inp}
+                          />
+                        ) : (
+                          <input
+                            type="url"
+                            value={btn.url || ""}
+                            onChange={(e) => updateButton(i, { ...btn, url: e.target.value })}
+                            placeholder="https://..."
+                            className={inp}
+                          />
+                        )}
+                      </div>
+                    )}
+                  </div>
+                ))}
+
+                {buttons.length < 3 && (
+                  <div className="relative">
+                    <button
+                      type="button"
+                      onClick={() => setAddMenuOpen((o) => !o)}
+                      className="w-full rounded-xl border-2 border-dashed border-border py-2 text-sm text-muted-foreground transition-colors hover:border-blue-400 hover:text-blue-500"
+                    >
+                      + Añadir botón
+                    </button>
+                    {addMenuOpen && (
+                      <div className="absolute left-0 right-0 z-10 mt-1 overflow-hidden rounded-lg border border-border bg-card shadow-lg">
+                        <button
+                          type="button"
+                          onClick={() => addTypedButton("url")}
+                          className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-muted"
+                        >
+                          <LinkIcon className="h-4 w-4 text-blue-500" /> Abrir sitio web
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => addTypedButton("postback")}
+                          className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-muted"
+                        >
+                          <Plus className="h-4 w-4 text-blue-500" /> Siguiente paso (postback)
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {/* Quick replies as pills under the bubble */}
+            <div className="flex flex-col items-end gap-2">
+              {replies.map((qr, i) => (
+                <div key={i} className="w-full max-w-[85%]">
+                  <div className="flex items-center gap-1 rounded-full border border-blue-500 bg-card pl-3 pr-1">
                     <input
                       type="text"
-                      value={btn.title}
-                      onChange={(e) => updateButton(i, { ...btn, title: e.target.value })}
-                      placeholder="Etiqueta del botón"
-                      className="flex-1 rounded border border-border bg-card px-2 py-1.5 text-xs text-foreground placeholder:text-muted-foreground/60 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                      value={qr.title}
+                      onChange={(e) => updateQuickReply(i, { ...qr, title: e.target.value })}
+                      placeholder="Respuesta"
+                      className="min-w-0 flex-1 bg-transparent py-1.5 text-center text-sm font-medium text-blue-600 placeholder:text-muted-foreground/50 focus:outline-none"
                     />
                     <button
                       type="button"
-                      onClick={() => removeButton(i)}
-                      className="rounded p-1 text-muted-foreground/60 hover:bg-muted hover:text-muted-foreground"
+                      onClick={() => setOpenReply(openReply === i ? null : i)}
+                      className="rounded-full p-1.5 text-muted-foreground hover:bg-muted"
+                      title="Configurar"
                     >
-                      <X className="h-3 w-3" />
+                      <Settings className="h-3.5 w-3.5" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        removeQuickReply(i);
+                        setOpenReply(null);
+                      }}
+                      className="rounded-full p-1.5 text-muted-foreground/60 hover:bg-muted"
+                    >
+                      <X className="h-3.5 w-3.5" />
                     </button>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <select
-                      value={btn.type}
-                      onChange={(e) => {
-                        const type = e.target.value as "postback" | "url";
-                        updateButton(i, {
-                          ...btn,
-                          type,
-                          payload: type === "postback" ? btn.payload || "" : undefined,
-                          url: type === "url" ? btn.url || "" : undefined,
-                        });
-                      }}
-                      className="rounded border border-border bg-card px-2 py-1.5 text-xs text-foreground focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                    >
-                      <option value="postback">Postback</option>
-                      <option value="url">URL</option>
-                    </select>
-                    {btn.type === "postback" ? (
-                      <input
-                        type="text"
-                        value={btn.payload || ""}
-                        onChange={(e) => updateButton(i, { ...btn, payload: e.target.value })}
-                        placeholder="Valor del payload"
-                        className="flex-1 rounded border border-border bg-card px-2 py-1.5 text-xs text-foreground placeholder:text-muted-foreground/60 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      />
-                    ) : (
-                      <input
-                        type="url"
-                        value={btn.url || ""}
-                        onChange={(e) => updateButton(i, { ...btn, url: e.target.value })}
-                        placeholder="https://..."
-                        className="flex-1 rounded border border-border bg-card px-2 py-1.5 text-xs text-foreground placeholder:text-muted-foreground/60 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                      />
-                    )}
-                  </div>
+                  {openReply === i && (
+                    <input
+                      type="text"
+                      value={qr.payload}
+                      onChange={(e) => updateQuickReply(i, { ...qr, payload: e.target.value })}
+                      placeholder="Payload"
+                      className={cn(inp, "mt-1.5")}
+                    />
+                  )}
                 </div>
               ))}
+              <button
+                type="button"
+                onClick={() => {
+                  addQuickReply();
+                  setOpenReply(replies.length);
+                }}
+                className="rounded-full border-2 border-dashed border-border px-4 py-1.5 text-sm text-muted-foreground transition-colors hover:border-blue-400 hover:text-blue-500"
+              >
+                + Añadir respuesta inmediata
+              </button>
+            </div>
+
+            {/* Content blocks */}
+            <div className="space-y-2 border-t border-border pt-3">
+              <p className="text-xs text-muted-foreground">Añade uno de los bloques de contenido:</p>
+              {!hasMedia && (
+                <button type="button" onClick={() => setMediaOpen(true)} className={blockCard}>
+                  <Image className="mt-0.5 h-5 w-5 shrink-0 text-muted-foreground" />
+                  <span>
+                    <span className="block text-sm font-medium text-foreground">Imagen / video / audio</span>
+                    <span className="block text-xs text-muted-foreground">
+                      Aumenta la participación con elementos visuales
+                    </span>
+                  </span>
+                </button>
+              )}
+              <button type="button" onClick={toggleMode} className={blockCard}>
+                <LayoutGrid className="mt-0.5 h-5 w-5 shrink-0 text-muted-foreground" />
+                <span>
+                  <span className="block text-sm font-medium text-foreground">Carrusel</span>
+                  <span className="block text-xs text-muted-foreground">
+                    Tarjetas deslizables con imagen y botones
+                  </span>
+                </span>
+              </button>
             </div>
           </>
         )}
