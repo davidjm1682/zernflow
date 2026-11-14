@@ -22,17 +22,20 @@ interface PostPickerProps {
 export function PostPicker({ value, onChange }: PostPickerProps) {
   const [posts, setPosts] = useState<PickerPost[] | null>(null);
   const [failed, setFailed] = useState(false);
+  const [reloadKey, setReloadKey] = useState(0);
 
   useEffect(() => {
     let cancelled = false;
-    fetch("/api/v1/posts")
+    setPosts(null);
+    setFailed(false);
+    fetch("/api/v1/posts", { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
       .then((json) => !cancelled && setPosts(json.posts ?? []))
       .catch(() => !cancelled && setFailed(true));
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [reloadKey]);
 
   const toggle = (id: string) =>
     onChange(value.includes(id) ? value.filter((v) => v !== id) : [...value, id]);
@@ -42,7 +45,16 @@ export function PostPicker({ value, onChange }: PostPickerProps) {
 
   return (
     <div className="mt-3">
-      <label className="mb-2 block text-xs font-semibold text-foreground">Publicaciones</label>
+      <div className="mb-2 flex items-center justify-between">
+        <label className="text-xs font-semibold text-foreground">Publicaciones</label>
+        <button
+          type="button"
+          onClick={() => setReloadKey((k) => k + 1)}
+          className="text-[11px] text-muted-foreground underline hover:text-foreground"
+        >
+          Recargar
+        </button>
+      </div>
       <p className="mb-2 text-xs text-muted-foreground">
         {value.length === 0
           ? "Todas las publicaciones. Elige una o varias para limitar este flujo."
@@ -52,6 +64,12 @@ export function PostPicker({ value, onChange }: PostPickerProps) {
       {posts === null && !failed && <p className="text-xs text-muted-foreground">Cargando publicaciones…</p>}
       {failed && (
         <p className="text-xs text-destructive">No se pudieron cargar las publicaciones.</p>
+      )}
+
+      {posts !== null && posts.length === 0 && !failed && (
+        <p className="text-xs text-muted-foreground">
+          No se encontraron publicaciones. Revisa que el canal de Instagram esté activo.
+        </p>
       )}
 
       <div className="max-h-64 space-y-1.5 overflow-y-auto">
