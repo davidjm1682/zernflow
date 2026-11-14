@@ -138,11 +138,20 @@ export async function GET(request: Request) {
           commentCount: p.commentCount ?? 0,
         });
       }
+      // The live sync also returns posts Zernio still remembers but that were
+      // deleted/archived on the platform (the inbox no longer lists them). Only
+      // take live-only posts newer than the inbox's newest one: those are the
+      // freshly published posts the inbox hasn't picked up yet.
+      const newestInbox = inbox.reduce(
+        (max, p) => ((p.createdTime ?? "") > max ? (p.createdTime ?? "") : max),
+        "",
+      );
       // Live data wins for freshness; keep inbox values where live has none.
       for (const p of live) {
         const post = fromExternal(p, username);
         if (!post) continue;
         const prev = byId.get(post.id);
+        if (!prev && newestInbox && (post.createdTime ?? "") <= newestInbox) continue;
         byId.set(post.id, {
           ...post,
           username: prev?.username ?? post.username,
