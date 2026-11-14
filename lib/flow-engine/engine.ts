@@ -395,10 +395,17 @@ async function sendFirstMessageAsPrivateReply(
   const first = data.messages[0];
   if (!first) return;
 
-  const text = interpolateVariables(
-    adaptMessage(first, context.platform ?? "instagram").text,
-    context.variables || {}
-  );
+  const adapted = adaptMessage(first, context.platform ?? "instagram");
+  const text = interpolateVariables(adapted.text, context.variables || {});
+
+  // Buttons and quick replies are mutually exclusive in this endpoint; buttons win
+  // (they also show in the Message Requests folder, where cold DMs land).
+  const body: Record<string, unknown> = { accountId: lateAccountId, message: text };
+  if (adapted.buttons?.length) {
+    body.buttons = adapted.buttons.slice(0, 3);
+  } else if (adapted.quickReplies?.length) {
+    body.quickReplies = adapted.quickReplies;
+  }
 
   try {
     await zernio.comments.sendPrivateReplyToComment({
@@ -406,7 +413,7 @@ async function sendFirstMessageAsPrivateReply(
         postId: String(context.variables!.post_id),
         commentId: String(context.variables!.comment_id),
       },
-      body: { accountId: lateAccountId, message: text },
+      body: body as Parameters<typeof zernio.comments.sendPrivateReplyToComment>[0]["body"],
     });
 
     await supabase.from("messages").insert({
