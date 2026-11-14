@@ -23,6 +23,26 @@ export function PostPicker({ value, onChange }: PostPickerProps) {
   const [posts, setPosts] = useState<PickerPost[] | null>(null);
   const [failed, setFailed] = useState(false);
   const [reloadKey, setReloadKey] = useState(0);
+  const [link, setLink] = useState("");
+  const [linkState, setLinkState] = useState<"idle" | "loading" | "notfound">("idle");
+
+  const addByLink = async () => {
+    const url = link.trim();
+    if (!url) return;
+    setLinkState("loading");
+    try {
+      const r = await fetch(`/api/v1/posts?url=${encodeURIComponent(url)}`, { cache: "no-store" });
+      const json = r.ok ? await r.json() : null;
+      const post: PickerPost | undefined = json?.posts?.[0];
+      if (!post) return setLinkState("notfound");
+      setPosts((prev) => [post, ...(prev ?? []).filter((p) => p.id !== post.id)]);
+      if (!value.includes(post.id)) onChange([...value, post.id]);
+      setLink("");
+      setLinkState("idle");
+    } catch {
+      setLinkState("notfound");
+    }
+  };
 
   // Refresh when the user comes back to the tab (e.g. after publishing a new reel).
   useEffect(() => {
@@ -70,6 +90,33 @@ export function PostPicker({ value, onChange }: PostPickerProps) {
       {posts === null && !failed && <p className="text-xs text-muted-foreground">Cargando publicaciones…</p>}
       {failed && (
         <p className="text-xs text-destructive">No se pudieron cargar las publicaciones.</p>
+      )}
+
+      <div className="mb-2 flex gap-1.5">
+        <input
+          type="url"
+          value={link}
+          onChange={(e) => {
+            setLink(e.target.value);
+            setLinkState("idle");
+          }}
+          onKeyDown={(e) => e.key === "Enter" && (e.preventDefault(), addByLink())}
+          placeholder="¿No aparece? Pega el enlace del reel"
+          className="min-w-0 flex-1 rounded-lg border border-border bg-card px-2.5 py-1.5 text-xs text-foreground placeholder:text-muted-foreground/60 focus:border-ring focus:outline-none"
+        />
+        <button
+          type="button"
+          onClick={addByLink}
+          disabled={!link.trim() || linkState === "loading"}
+          className="rounded-lg border border-border px-2.5 text-xs font-medium text-foreground hover:bg-muted disabled:opacity-50"
+        >
+          {linkState === "loading" ? "Buscando…" : "Añadir"}
+        </button>
+      </div>
+      {linkState === "notfound" && (
+        <p className="mb-2 text-xs text-destructive">
+          No encontré esa publicación en tu cuenta conectada.
+        </p>
       )}
 
       {posts !== null && posts.length === 0 && !failed && (
