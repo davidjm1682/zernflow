@@ -24,9 +24,15 @@ export function PostPicker({ value, onChange }: PostPickerProps) {
   const [failed, setFailed] = useState(false);
   const [reloadKey, setReloadKey] = useState(0);
 
+  // Refresh when the user comes back to the tab (e.g. after publishing a new reel).
+  useEffect(() => {
+    const onFocus = () => setReloadKey((k) => k + 1);
+    window.addEventListener("focus", onFocus);
+    return () => window.removeEventListener("focus", onFocus);
+  }, []);
+
   useEffect(() => {
     let cancelled = false;
-    setPosts(null);
     setFailed(false);
     fetch("/api/v1/posts", { cache: "no-store" })
       .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
