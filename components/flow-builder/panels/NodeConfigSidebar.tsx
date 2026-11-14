@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { X, Trash2, Zap, MessageSquare, GitBranch, Clock, Cog, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Edge, Node } from "@xyflow/react";
@@ -117,6 +117,40 @@ export function NodeConfigSidebar({ node, nodes, edges, onChange, onClose, onDel
   const config = nodeTypeConfig[nodeType] || nodeTypeConfig.action;
   const Icon = config.icon;
 
+  // Resizable width (drag the left edge), remembered across sessions.
+  const [width, setWidth] = useState(416);
+  const dragging = useRef(false);
+  useEffect(() => {
+    try {
+      const saved = Number(localStorage.getItem("zernflow.sidebarWidth"));
+      if (saved >= 320) setWidth(saved);
+    } catch {}
+  }, []);
+  useEffect(() => {
+    function onMove(e: MouseEvent) {
+      if (!dragging.current) return;
+      const w = Math.min(Math.max(window.innerWidth - e.clientX, 320), Math.round(window.innerWidth * 0.8));
+      setWidth(w);
+    }
+    function onUp() {
+      if (!dragging.current) return;
+      dragging.current = false;
+      document.body.style.userSelect = "";
+      try {
+        setWidth((w) => {
+          localStorage.setItem("zernflow.sidebarWidth", String(w));
+          return w;
+        });
+      } catch {}
+    }
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+    };
+  }, []);
+
   // Close on Escape
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
@@ -175,11 +209,20 @@ export function NodeConfigSidebar({ node, nodes, edges, onChange, onClose, onDel
   return (
     <div
       className={cn(
-        "flex w-[26rem] max-w-[90vw] flex-col border-l bg-card",
+        "relative flex max-w-[90vw] shrink-0 flex-col border-l bg-card",
         config.borderColor
       )}
-      style={{ borderLeftWidth: "3px" }}
+      style={{ borderLeftWidth: "3px", width }}
     >
+      <div
+        onMouseDown={(e) => {
+          e.preventDefault();
+          dragging.current = true;
+          document.body.style.userSelect = "none";
+        }}
+        className="absolute -left-1.5 top-0 z-10 h-full w-3 cursor-col-resize hover:bg-emerald-500/30"
+        title="Arrastra para ajustar el ancho"
+      />
       {/* Header */}
       <div className="flex items-center justify-between border-b border-border px-4 py-3">
         <div className="flex items-center gap-2.5">
