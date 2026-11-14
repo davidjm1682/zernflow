@@ -266,7 +266,6 @@ function MessageEditor({
       ],
     });
     setOpenButton(buttons.length);
-    setAddMenuOpen(false);
   };
 
   const blockCard =
