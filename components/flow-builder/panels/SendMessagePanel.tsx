@@ -171,7 +171,6 @@ function MessageEditor({
   const isCarouselMode = !!message.carousel;
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const [varsOpen, setVarsOpen] = useState(false);
-  const [addMenuOpen, setAddMenuOpen] = useState(false);
   const [openButton, setOpenButton] = useState<number | null>(null);
   const [openReply, setOpenReply] = useState<number | null>(null);
   const [mediaOpen, setMediaOpen] = useState(false);
@@ -471,32 +470,21 @@ function MessageEditor({
                 ))}
 
                 {buttons.length < 3 && (
-                  <div className="relative">
+                  <div className="flex gap-2">
                     <button
                       type="button"
-                      onClick={() => setAddMenuOpen((o) => !o)}
-                      className="w-full rounded-xl border-2 border-dashed border-border py-2 text-sm text-muted-foreground transition-colors hover:border-blue-400 hover:text-blue-500"
+                      onClick={() => addTypedButton("url")}
+                      className="flex flex-1 items-center justify-center gap-1.5 rounded-xl border-2 border-dashed border-border py-2 text-sm text-muted-foreground transition-colors hover:border-blue-400 hover:text-blue-500"
                     >
-                      + Añadir botón
+                      <LinkIcon className="h-4 w-4" /> Botón de enlace
                     </button>
-                    {addMenuOpen && (
-                      <div className="absolute left-0 right-0 z-10 mt-1 overflow-hidden rounded-lg border border-border bg-card shadow-lg">
-                        <button
-                          type="button"
-                          onClick={() => addTypedButton("url")}
-                          className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-muted"
-                        >
-                          <LinkIcon className="h-4 w-4 text-blue-500" /> Abrir sitio web
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => addTypedButton("postback")}
-                          className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-muted"
-                        >
-                          <Plus className="h-4 w-4 text-blue-500" /> Siguiente paso (postback)
-                        </button>
-                      </div>
-                    )}
+                    <button
+                      type="button"
+                      onClick={() => addTypedButton("postback")}
+                      className="flex flex-1 items-center justify-center gap-1.5 rounded-xl border-2 border-dashed border-border py-2 text-sm text-muted-foreground transition-colors hover:border-blue-400 hover:text-blue-500"
+                    >
+                      <Plus className="h-4 w-4" /> Siguiente paso
+                    </button>
                   </div>
                 )}
               </div>
